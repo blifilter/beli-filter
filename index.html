@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>בלי פילטר</title>
-<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Heebo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -13,14 +13,15 @@
   --red-deep: #7b1a1a;
   --gold: #d4a843;
   --gold-light: #f0c060;
-  --black: #0d0000;
-  --dark: #1a0505;
-  --surface: rgba(255,255,255,0.06);
-  --surface-hover: rgba(255,255,255,0.10);
+  --gold-dim: rgba(212,168,67,0.3);
+  --black: #080000;
+  --dark: #120303;
+  --surface: rgba(255,255,255,0.05);
+  --surface-hover: rgba(255,255,255,0.09);
   --text: #f5e6e6;
-  --text-muted: rgba(245,230,230,0.55);
+  --text-muted: rgba(245,230,230,0.5);
   --radius: 24px;
-  --shadow: 0 8px 40px rgba(0,0,0,0.6);
+  --shadow: 0 12px 50px rgba(0,0,0,0.7);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,18 +33,43 @@ html, body {
   color: var(--text);
   overflow-x: hidden;
   overflow-y: auto;
-  margin: 0;
-  padding: 0;
 }
 
-/* BG */
+/* ── PARTICLES ── */
+#particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--gold);
+  opacity: 0;
+  animation: floatUp var(--dur) ease-in var(--delay) infinite;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(100vh) translateX(0) scale(0); opacity: 0; }
+  10%  { opacity: var(--op); }
+  90%  { opacity: var(--op); }
+  100% { transform: translateY(-10vh) translateX(var(--drift)) scale(1.5); opacity: 0; }
+}
+
+/* ── BG ── */
 body::before {
   content: '';
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
+  inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(140,20,20,0.35) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(100,10,10,0.25) 0%, transparent 60%);
+    radial-gradient(ellipse 90% 70% at 50% -10%, rgba(160,25,25,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 90%, rgba(100,10,10,0.3) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 10% 70%, rgba(80,8,8,0.2) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -51,138 +77,168 @@ body::before {
 body::after {
   content: '';
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-size: 300px 300px;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.5;
 }
 
 .app {
   position: relative;
   z-index: 1;
   width: 100%;
-  min-height: 600px;
+  min-height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 24px 16px;
+  padding: 24px 16px 40px;
   box-sizing: border-box;
 }
 
-/* SCREENS */
+/* ── SCREENS ── */
 .screen {
   width: 100%;
   max-width: 400px;
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 0;
-  animation: screenIn 0.45s cubic-bezier(0.22,1,0.36,1) both;
   padding-bottom: 24px;
 }
 .screen.active { display: flex; }
 
-@keyframes screenIn {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* ── WELCOME ── */
+#welcomeScreen {
+  min-height: 100vh;
+  justify-content: center;
 }
 
-/* WELCOME */
-.logo-wrap {
-  margin-bottom: 32px;
-  text-align: center;
-}
+.logo-wrap { text-align: center; margin-bottom: 40px; }
 
 .logo-eyebrow {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 4px;
+  letter-spacing: 6px;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 10px;
-  opacity: 0.85;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: fadeSlideDown 0.8s ease 0.3s forwards;
 }
 
 .logo-title {
-  font-size: clamp(48px, 14vw, 72px);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(64px, 18vw, 96px);
   font-weight: 900;
-  line-height: 0.95;
+  line-height: 0.9;
   color: white;
-  text-shadow: 0 0 60px rgba(192,57,43,0.5);
-  letter-spacing: -1px;
-}
-
-.logo-subtitle {
-  font-size: 15px;
-  color: var(--text-muted);
-  margin-top: 12px;
-  font-weight: 300;
-  letter-spacing: 0.5px;
+  letter-spacing: -2px;
+  opacity: 0;
+  animation: fadeSlideDown 0.9s ease 0.5s forwards;
+  text-shadow:
+    0 0 80px rgba(192,57,43,0.6),
+    0 0 160px rgba(192,57,43,0.2);
 }
 
 .logo-divider {
-  width: 60px;
-  height: 2px;
+  width: 80px;
+  height: 1px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 20px auto;
+  opacity: 0;
+  animation: fadeSlideDown 0.8s ease 0.7s forwards;
 }
 
-/* BUTTONS */
+.logo-subtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  font-weight: 300;
+  letter-spacing: 1px;
+  opacity: 0;
+  animation: fadeSlideDown 0.8s ease 0.9s forwards;
+}
+
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* welcome cta */
+.welcome-cta {
+  opacity: 0;
+  animation: fadeSlideDown 0.8s ease 1.1s forwards;
+  width: 100%;
+}
+
+/* ── BUTTONS ── */
 .btn {
   width: 100%;
   padding: 18px 24px;
   border: none;
   border-radius: 50px;
   font-family: 'Heebo', sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.12s, box-shadow 0.12s, background 0.2s, opacity 0.2s;
-  letter-spacing: 0.3px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.5px;
   position: relative;
   overflow: hidden;
 }
 
-.btn::after {
+.btn::before {
   content: '';
   position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0);
-  transition: background 0.15s;
-  border-radius: inherit;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s ease;
 }
-
-.btn:active::after { background: rgba(255,255,255,0.12); }
+.btn:hover::before { left: 150%; }
 .btn:active { transform: scale(0.97); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--red-bright), var(--red-deep));
+  background: linear-gradient(135deg, var(--red-bright) 0%, var(--red) 50%, var(--red-deep) 100%);
   color: white;
-  box-shadow: 0 4px 24px rgba(192,57,43,0.45), 0 1px 0 rgba(255,255,255,0.08) inset;
+  box-shadow: 0 4px 30px rgba(192,57,43,0.5), 0 1px 0 rgba(255,255,255,0.1) inset;
 }
-.btn-primary:hover { box-shadow: 0 6px 32px rgba(192,57,43,0.6); transform: translateY(-1px); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(192,57,43,0.65); }
 
 .btn-secondary {
   background: var(--surface);
   color: var(--text);
   border: 1px solid rgba(255,255,255,0.1);
 }
-.btn-secondary:hover { background: var(--surface-hover); }
+.btn-secondary:hover { background: var(--surface-hover); transform: translateY(-1px); }
 
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold), #b8861a);
-  color: #1a0000;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold), #a0720f);
+  color: #0d0000;
   font-weight: 900;
-  box-shadow: 0 4px 24px rgba(212,168,67,0.35);
+  box-shadow: 0 4px 30px rgba(212,168,67,0.4);
 }
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(212,168,67,0.55); }
 
 .btn-ghost {
   background: transparent;
   color: var(--text-muted);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.1);
   font-weight: 400;
+}
+
+.btn-random {
+  background: linear-gradient(135deg, #2d1b6e, #1a0f4a);
+  color: white;
+  border: 1px solid rgba(150,100,255,0.3);
+  box-shadow: 0 4px 20px rgba(100,50,200,0.3);
+  font-size: 14px;
+}
+.btn-random:hover { transform: translateY(-1px); box-shadow: 0 6px 28px rgba(100,50,200,0.45); }
+.btn-random.active-mode {
+  background: linear-gradient(135deg, #4a2db0, #2d1b8a);
+  border-color: rgba(180,140,255,0.5);
+  box-shadow: 0 4px 24px rgba(120,70,255,0.5), 0 0 0 1px rgba(180,140,255,0.2);
 }
 
 .btn.disabled {
@@ -191,19 +247,18 @@ body::after {
   cursor: not-allowed;
   box-shadow: none !important;
   transform: none !important;
-  border: 1px solid rgba(255,255,255,0.06) !important;
-  font-size: 13px;
+  border: 1px solid rgba(255,255,255,0.05) !important;
+  font-size: 12px;
 }
-.btn.disabled::after { display: none; }
 
-/* INPUTS */
-.input-group { width: 100%; margin-bottom: 12px; position: relative; }
+/* ── INPUTS ── */
+.input-group { width: 100%; margin-bottom: 14px; }
 
 .input-label {
   display: block;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 2px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 8px;
@@ -213,25 +268,29 @@ body::after {
 .input {
   width: 100%;
   padding: 16px 20px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   color: white;
   font-family: 'Heebo', sans-serif;
   font-size: 17px;
   font-weight: 600;
   text-align: center;
-  transition: border-color 0.2s, background 0.2s;
   outline: none;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   -webkit-appearance: none;
 }
-.input::placeholder { color: var(--text-muted); font-weight: 300; }
-.input:focus { border-color: var(--red-bright); background: rgba(255,255,255,0.09); }
+.input::placeholder { color: rgba(255,255,255,0.2); font-weight: 300; }
+.input:focus {
+  border-color: rgba(192,57,43,0.6);
+  background: rgba(255,255,255,0.08);
+  box-shadow: 0 0 0 3px rgba(192,57,43,0.15);
+}
 
-/* ERROR */
+/* ── ERROR ── */
 .error-msg {
-  background: rgba(192,57,43,0.25);
-  border: 1px solid rgba(192,57,43,0.4);
+  background: rgba(192,57,43,0.2);
+  border: 1px solid rgba(192,57,43,0.35);
   border-radius: 14px;
   padding: 12px 16px;
   font-size: 14px;
@@ -243,171 +302,48 @@ body::after {
 }
 .error-msg.show { display: block; }
 
-/* GAME SCREEN */
-#gameScreen {
-  gap: 0;
+/* ── SETUP HEADER ── */
+.setup-header { text-align: center; margin-bottom: 28px; }
+.setup-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: white;
+  margin-bottom: 6px;
 }
+.setup-header p { font-size: 14px; color: var(--text-muted); }
 
-.turn-bar {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.turn-label {
-  font-size: 12px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  font-weight: 400;
-  margin-bottom: 4px;
-}
-
+/* ── GAME ── */
+.turn-bar { width: 100%; text-align: center; margin-bottom: 14px; }
+.turn-label { font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
 .turn-name {
-  font-size: 26px;
-  font-weight: 900;
+  font-family: 'Playfair Display', serif;
+  font-size: 30px;
+  font-weight: 700;
   color: white;
   letter-spacing: -0.5px;
 }
 
-/* CARD */
-.card-wrap {
-  width: 100%;
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.card {
-  width: 100%;
-  height: 54vh;
-  min-height: 280px;
-  max-height: 420px;
-  border-radius: var(--radius);
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.06);
-  overflow: hidden;
-  display: none;
-}
-
-.card.show { display: block; }
-
-/* card shimmer overlay */
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.3) 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.card-inner {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 32px 24px;
-  z-index: 2;
-}
-
-.card-badge {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.45);
-  border: 1px solid rgba(255,165,0,0.4);
-  border-radius: 50px;
-  padding: 5px 16px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gold-light);
-  letter-spacing: 1px;
-  white-space: nowrap;
-  z-index: 3;
-}
-
-.card-text {
-  font-size: clamp(13px, 3.8vw, 19px);
-  font-weight: 600;
-  text-align: center;
-  line-height: 1.6;
-  color: white;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.5);
-  width: 85%;
-  max-height: 75%;
-  overflow-y: auto;
-  scrollbar-width: none;
-  padding: 0 4px;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-.card-text::-webkit-scrollbar { display: none; }
-
-.card-placeholder {
-  width: 100%;
-  height: 54vh;
-  min-height: 280px;
-  max-height: 420px;
-  border-radius: var(--radius);
-  border: 2px dashed rgba(255,255,255,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.card-placeholder-icon { font-size: 36px; opacity: 0.25; }
-.card-placeholder-text { font-size: 14px; color: var(--text-muted); }
-
-/* ACTIONS */
-.actions {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.actions-row {
-  display: flex;
-  gap: 10px;
-  width: 100%;
-}
-
-.actions-row .btn { flex: 1; }
-
-/* DECK COUNTERS */
-.deck-status {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  margin-bottom: 14px;
-}
-
+/* deck pills */
+.deck-status { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; }
 .deck-pill {
   font-size: 11px;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
   letter-spacing: 0.5px;
 }
-
-.deck-pill.blue { background: rgba(52,120,200,0.2); color: #7eb8ff; border: 1px solid rgba(52,120,200,0.25); }
-.deck-pill.red  { background: rgba(192,57,43,0.2);  color: #ff9090; border: 1px solid rgba(192,57,43,0.25); }
-.deck-pill.orange { background: rgba(230,126,34,0.2); color: #ffbe70; border: 1px solid rgba(230,126,34,0.25); }
+.deck-pill.blue   { background: rgba(52,120,200,0.15); color: #7eb8ff; border: 1px solid rgba(52,120,200,0.2); }
+.deck-pill.red    { background: rgba(192,57,43,0.15);  color: #ff9090; border: 1px solid rgba(192,57,43,0.2); }
+.deck-pill.orange { background: rgba(230,126,34,0.15); color: #ffbe70; border: 1px solid rgba(230,126,34,0.2); }
 
 /* ── CARD FLIP ── */
 .card-scene {
   width: 100%;
-  height: 54vh;
+  height: 52vh;
   min-height: 280px;
-  max-height: 420px;
-  perspective: 1000px;
+  max-height: 400px;
+  perspective: 1200px;
+  margin-bottom: 18px;
 }
 
 .card-flipper {
@@ -415,12 +351,9 @@ body::after {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.55s cubic-bezier(0.4,0.2,0.2,1);
+  transition: transform 0.6s cubic-bezier(0.4,0.2,0.2,1);
 }
-
-.card-flipper.flipped {
-  transform: rotateY(180deg);
-}
+.card-flipper.flipped { transform: rotateY(180deg); }
 
 .card-face {
   position: absolute;
@@ -429,115 +362,191 @@ body::after {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   overflow: hidden;
-  box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.06);
 }
 
-/* BACK face — decorative card back */
+/* BACK */
 .card-back {
-  background: linear-gradient(135deg, #1a0505 0%, #3d0a0a 50%, #1a0505 100%);
+  background: linear-gradient(160deg, #1c0404 0%, #3a0808 45%, #1c0404 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(212,168,67,0.12);
 }
 
-.card-back-pattern {
-  width: 85%;
-  height: 85%;
-  border: 2px solid rgba(212,168,67,0.3);
-  border-radius: 16px;
+.card-back-inner {
+  width: 88%;
+  height: 88%;
+  border: 1px solid rgba(212,168,67,0.2);
+  border-radius: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: repeating-linear-gradient(
-    45deg,
-    rgba(212,168,67,0.04) 0px,
-    rgba(212,168,67,0.04) 1px,
-    transparent 1px,
-    transparent 12px
-  );
+  background:
+    repeating-linear-gradient(45deg, rgba(212,168,67,0.03) 0px, rgba(212,168,67,0.03) 1px, transparent 1px, transparent 14px),
+    repeating-linear-gradient(-45deg, rgba(212,168,67,0.03) 0px, rgba(212,168,67,0.03) 1px, transparent 1px, transparent 14px);
+  position: relative;
 }
 
 .card-back-logo {
-  font-size: 42px;
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
   font-weight: 900;
-  color: rgba(212,168,67,0.4);
+  color: rgba(212,168,67,0.35);
   letter-spacing: -1px;
   text-align: center;
   line-height: 1;
-  font-family: 'Heebo', sans-serif;
 }
 
-/* FRONT face */
+/* gold corner accents */
+.card-back-inner::before,
+.card-back-inner::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: rgba(212,168,67,0.3);
+  border-style: solid;
+}
+.card-back-inner::before { top: 10px; right: 10px; border-width: 1px 1px 0 0; border-radius: 0 4px 0 0; }
+.card-back-inner::after  { bottom: 10px; left: 10px; border-width: 0 0 1px 1px; border-radius: 0 0 4px 0; }
+
+/* FRONT */
 .card-front {
   transform: rotateY(180deg);
   background-size: cover;
   background-position: center;
+  box-shadow: var(--shadow), 0 0 0 1px rgba(255,255,255,0.07);
 }
-
 .card-front::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%, rgba(0,0,0,0.3) 100%);
-  pointer-events: none;
+  background: linear-gradient(160deg, rgba(255,255,255,0.05) 0%, transparent 40%, rgba(0,0,0,0.35) 100%);
   z-index: 1;
 }
 
-/* NO FILTER special effect */
-@keyframes noFilterShake {
+.card-badge {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,165,0,0.4);
+  border-radius: 50px;
+  padding: 5px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold-light);
+  letter-spacing: 1px;
+  white-space: nowrap;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+}
+
+.card-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  z-index: 2;
+}
+
+.card-text {
+  font-size: clamp(14px, 4vw, 20px);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.6;
+  color: white;
+  text-shadow: 0 2px 16px rgba(0,0,0,0.9);
+  width: 85%;
+  max-height: 80%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  word-break: break-word;
+}
+.card-text::-webkit-scrollbar { display: none; }
+
+/* PLACEHOLDER */
+.card-placeholder {
+  width: 100%;
+  height: 52vh;
+  min-height: 280px;
+  max-height: 400px;
+  border-radius: var(--radius);
+  border: 1px dashed rgba(255,255,255,0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: rgba(255,255,255,0.015);
+  margin-bottom: 18px;
+}
+.card-placeholder-icon { font-size: 32px; opacity: 0.2; }
+.card-placeholder-text { font-size: 13px; color: var(--text-muted); letter-spacing: 1px; }
+
+/* ── ACTIONS ── */
+.actions { width: 100%; display: flex; flex-direction: column; gap: 10px; }
+.actions-row { display: flex; gap: 10px; width: 100%; }
+.actions-row .btn { flex: 1; }
+
+/* random mode indicator */
+.random-indicator {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(150,120,255,0.7);
+  letter-spacing: 1px;
+  margin-top: 6px;
+  height: 16px;
+  transition: opacity 0.3s;
+}
+
+/* ── NO FILTER EFFECTS ── */
+@keyframes nfShake {
   0%,100% { transform: rotateY(180deg) translateX(0); }
-  20%      { transform: rotateY(180deg) translateX(-6px); }
-  40%      { transform: rotateY(180deg) translateX(6px); }
-  60%      { transform: rotateY(180deg) translateX(-4px); }
-  80%      { transform: rotateY(180deg) translateX(4px); }
+  20%     { transform: rotateY(180deg) translateX(-7px); }
+  40%     { transform: rotateY(180deg) translateX(7px); }
+  60%     { transform: rotateY(180deg) translateX(-4px); }
+  80%     { transform: rotateY(180deg) translateX(4px); }
 }
-
-@keyframes noFilterGlow {
-  0%   { box-shadow: 0 0 0px rgba(230,126,34,0); }
-  30%  { box-shadow: 0 0 40px rgba(230,126,34,0.8), 0 0 80px rgba(230,126,34,0.4); }
-  100% { box-shadow: 0 0 20px rgba(230,126,34,0.3), 0 0 40px rgba(230,126,34,0.15); }
+@keyframes nfGlow {
+  0%   { box-shadow: var(--shadow); }
+  30%  { box-shadow: 0 0 50px rgba(230,126,34,0.9), 0 0 100px rgba(230,126,34,0.4); }
+  100% { box-shadow: 0 0 25px rgba(230,126,34,0.35), 0 0 50px rgba(230,126,34,0.15); }
 }
-
-@keyframes flashOverlay {
+@keyframes flashAnim {
   0%   { opacity: 0; }
-  15%  { opacity: 0.35; }
+  12%  { opacity: 0.4; }
   100% { opacity: 0; }
 }
 
-.card-flipper.no-filter-reveal {
-  animation: noFilterShake 0.5s ease 0.6s both;
-}
-
-.card-front.no-filter-glow {
-  animation: noFilterGlow 1s ease 0.55s both;
-}
+.card-flipper.nf-shake { animation: nfShake 0.5s ease 0.62s both; }
+.card-front.nf-glow    { animation: nfGlow 1s ease 0.58s both; }
 
 .flash-overlay {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(ellipse at center, rgba(230,126,34,0.6), rgba(180,60,0,0.3));
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(230,126,34,0.55), rgba(180,60,0,0.25));
   pointer-events: none;
   z-index: 999;
   opacity: 0;
 }
+.flash-overlay.active { animation: flashAnim 0.9s ease forwards; }
 
-.flash-overlay.active {
-  animation: flashOverlay 0.8s ease forwards;
-}
-
-/* END SCREEN */
-#endScreen {
-  text-align: center;
-  gap: 0;
-}
-
+/* ── END ── */
+#endScreen { text-align: center; }
 .end-emoji { font-size: 64px; margin-bottom: 16px; }
-.end-title { font-size: 36px; font-weight: 900; color: white; margin-bottom: 6px; }
-.end-sub { font-size: 16px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
-
+.end-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 38px;
+  color: white;
+  margin-bottom: 8px;
+}
+.end-sub { font-size: 15px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
 .end-box {
   background: var(--surface);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.07);
   border-radius: var(--radius);
   padding: 22px;
   font-size: 15px;
@@ -547,33 +556,19 @@ body::after {
   width: 100%;
 }
 
-/* SETUP HEADER */
-.setup-header {
-  text-align: center;
-  margin-bottom: 28px;
-}
-.setup-header h2 {
+/* ── INTRO ── */
+.intro-icon { font-size: 48px; margin-bottom: 12px; }
+.intro-title {
+  font-family: 'Playfair Display', serif;
   font-size: 28px;
-  font-weight: 900;
   color: white;
-  margin-bottom: 6px;
+  margin-bottom: 18px;
 }
-.setup-header p {
-  font-size: 14px;
-  color: var(--text-muted);
-}
-
-.separator { width: 100%; height: 1px; background: rgba(255,255,255,0.06); margin: 8px 0 16px; }
-
-
-/* INTRO SCREEN */
-.intro-icon { font-size: 52px; margin-bottom: 12px; }
-.intro-title { font-size: 26px; font-weight: 900; color: white; margin-bottom: 16px; }
 .intro-box {
   background: var(--surface);
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.07);
   border-radius: var(--radius);
-  padding: 18px 20px;
+  padding: 20px;
   width: 100%;
   margin-bottom: 20px;
 }
@@ -589,16 +584,10 @@ body::after {
 .intro-row:last-child { margin-bottom: 0; }
 .intro-emoji { font-size: 20px; flex-shrink: 0; }
 
-/* SPOTIFY SCREEN */
-.spotify-title { font-size: 24px; font-weight: 900; color: white; margin-bottom: 6px; text-align: center; }
+/* ── SPOTIFY ── */
+.spotify-title { font-family: 'Playfair Display', serif; font-size: 26px; color: white; margin-bottom: 6px; text-align: center; }
 .spotify-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; text-align: center; line-height: 1.6; }
-.qr-wrap {
-  background: white;
-  border-radius: 20px;
-  padding: 14px;
-  margin-bottom: 20px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
+.qr-wrap { background: white; border-radius: 20px; padding: 14px; margin-bottom: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
 .qr-wrap img { width: 190px; height: auto; display: block; border-radius: 8px; }
 .spotify-btn {
   display: block;
@@ -612,54 +601,538 @@ body::after {
   text-decoration: none;
   width: 100%;
   margin-bottom: 10px;
-  box-shadow: 0 4px 20px rgba(29,185,84,0.35);
   font-family: 'Heebo', sans-serif;
   box-sizing: border-box;
+  box-shadow: 0 4px 24px rgba(29,185,84,0.35);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.spotify-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(29,185,84,0.5); }
+
+/* ── PROGRESS BAR ── */
+.progress-wrap {
+  width: 100%;
+  height: 3px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red-deep), var(--red-bright), var(--gold));
+  border-radius: 3px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ── TIMER ── */
+.timer-wrap {
+  width: 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.timer-wrap.show { display: flex; }
+
+.timer-ring-wrap {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+.timer-ring-wrap svg {
+  transform: rotate(-90deg);
+}
+.timer-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 5; }
+.timer-fg {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 188.4;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.5s;
+}
+.timer-fg.urgent { stroke: var(--red-bright); }
+.timer-num {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 900;
+  color: white;
+}
+
+.timer-start-btn {
+  padding: 8px 24px;
+  background: linear-gradient(135deg, var(--gold), #a0720f);
+  color: #0d0000;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  font-weight: 900;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 16px rgba(212,168,67,0.35);
+}
+.timer-start-btn:active { transform: scale(0.96); }
+.timer-start-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── TURN TRANSITION ── */
+@keyframes turnIn {
+  0%   { opacity: 0; transform: translateY(-16px) scale(0.85); }
+  60%  { transform: translateY(3px) scale(1.04); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+.turn-name.animate { animation: turnIn 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+
+/* ── CONFETTI ── */
+#confetti-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+#confetti-canvas.show { opacity: 1; }
+
+/* ── GOLD STREAK on flip ── */
+@keyframes goldStreak {
+  0%   { left: -60%; opacity: 0; }
+  30%  { opacity: 0.7; }
+  100% { left: 150%; opacity: 0; }
+}
+.card-streak {
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.3), rgba(255,255,255,0.15), rgba(212,168,67,0.3), transparent);
+  z-index: 4;
+  pointer-events: none;
+  transform: skewX(-15deg);
+}
+.card-streak.play { animation: goldStreak 0.7s ease 0.35s both; }
+
+
+/* ── FIRE LOGO ANIMATION ── */
+@keyframes letterDrop {
+  0%   { opacity: 0; transform: translateY(-30px) scale(0.5); filter: blur(4px); }
+  60%  { transform: translateY(4px) scale(1.08); filter: blur(0); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+.logo-title .letter {
+  display: inline-block;
+  opacity: 0;
+  animation: letterDrop 0.5s cubic-bezier(0.22,1,0.36,1) forwards;
+  text-shadow:
+    0 0 20px rgba(255,100,0,0.9),
+    0 0 50px rgba(255,60,0,0.6),
+    0 0 100px rgba(200,30,0,0.4);
+}
+
+@keyframes fireFlicker {
+  0%,100% { text-shadow: 0 0 20px rgba(255,100,0,0.9), 0 0 50px rgba(255,60,0,0.6), 0 0 100px rgba(200,30,0,0.4); }
+  50%     { text-shadow: 0 0 30px rgba(255,150,0,1), 0 0 70px rgba(255,80,0,0.8), 0 0 120px rgba(200,30,0,0.5); }
+}
+.logo-title .letter.lit {
+  animation: letterDrop 0.5s cubic-bezier(0.22,1,0.36,1) forwards, fireFlicker 1.5s ease-in-out infinite;
+}
+
+/* ── BREATHING BG ── */
+@keyframes breathe {
+  0%,100% { opacity: 0.35; transform: scale(1); }
+  50%     { opacity: 0.55; transform: scale(1.08); }
+}
+@keyframes breathe2 {
+  0%,100% { opacity: 0.25; transform: scale(1) translateX(0); }
+  50%     { opacity: 0.4; transform: scale(1.05) translateX(15px); }
+}
+
+.bg-orb1 {
+  position: fixed;
+  width: 70vw; height: 70vw;
+  max-width: 500px; max-height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(160,25,25,0.5) 0%, transparent 70%);
+  top: -15%; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: breathe 5s ease-in-out infinite;
+}
+.bg-orb2 {
+  position: fixed;
+  width: 50vw; height: 50vw;
+  max-width: 350px; max-height: 350px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(100,10,10,0.4) 0%, transparent 70%);
+  bottom: 5%; right: -10%;
+  pointer-events: none;
+  z-index: 0;
+  animation: breathe2 7s ease-in-out infinite;
+}
+
+/* ── EMOJI PICKER ── */
+.emoji-picker-wrap {
+  width: 100%;
+  margin-bottom: 6px;
+}
+.emoji-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: block;
+  padding-right: 4px;
+}
+.emoji-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 12px;
+}
+.emoji-opt {
+  font-size: 24px;
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+}
+.emoji-opt:hover { background: rgba(255,255,255,0.08); }
+.emoji-opt.selected {
+  background: rgba(212,168,67,0.15);
+  border-color: var(--gold);
+  transform: scale(1.15);
+}
+
+/* player card in turn bar */
+.turn-bar {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.player-avatar {
+  font-size: 32px;
+  margin-bottom: 2px;
+  display: block;
+}
+@keyframes avatarBounce {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.2); }
+}
+.player-avatar.bounce { animation: avatarBounce 0.4s ease; }
+
+/* ── HEAT METER ── */
+.heat-wrap {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+.heat-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.heat-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.heat-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ff8c00, #ff4500, #ff0000);
+  transition: width 0.8s cubic-bezier(0.22,1,0.36,1);
+  box-shadow: 0 0 8px rgba(255,80,0,0.6);
+}
+.heat-icon { font-size: 14px; transition: transform 0.3s; }
+.heat-icon.hot { animation: heatPulse 0.8s ease infinite; }
+@keyframes heatPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.3); }
+}
+
+/* ── FIRE MODE BG ── */
+body.fire-mode::before {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -5%, rgba(255,100,0,0.7) 0%, rgba(200,40,0,0.4) 40%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(220,60,0,0.5) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 70%, rgba(180,30,0,0.4) 0%, transparent 50%);
+  transition: all 1.5s ease;
+}
+
+@keyframes fireModePulse {
+  0%,100% { opacity: 0.7; transform: scale(1); }
+  50%     { opacity: 1; transform: scale(1.15); }
+}
+
+body.fire-mode .bg-orb1 {
+  animation: fireModePulse 2s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(255,80,0,0.7) 0%, transparent 70%) !important;
+}
+
+body.fire-mode .bg-orb2 {
+  animation: fireModePulse 2.5s ease-in-out 0.5s infinite !important;
+  background: radial-gradient(circle, rgba(220,50,0,0.5) 0%, transparent 70%) !important;
+}
+
+/* fire border flash */
+@keyframes fireBorderPulse {
+  0%,100% { box-shadow: 0 0 0px rgba(255,80,0,0); }
+  50%     { box-shadow: 0 0 40px rgba(255,80,0,0.35), inset 0 0 20px rgba(255,80,0,0.1); }
+}
+
+body.fire-mode .app {
+  animation: fireBorderPulse 2s ease-in-out infinite;
+}
+
+/* fire vignette overlay */
+body.fire-mode::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, transparent 40%, rgba(150,30,0,0.25) 100%);
+  transition: all 1.5s ease;
+}
+
+
+/* ── NATURE MODE ── */
+body.nature-mode::before {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -5%, rgba(0,180,50,0.6) 0%, rgba(0,120,30,0.35) 40%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(0,150,40,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 70%, rgba(0,100,20,0.3) 0%, transparent 50%);
+  transition: all 1.5s ease;
+}
+body.nature-mode .bg-orb1 {
+  animation: fireModePulse 2.5s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(0,180,60,0.6) 0%, transparent 70%) !important;
+}
+body.nature-mode .bg-orb2 {
+  animation: fireModePulse 3s ease-in-out 0.5s infinite !important;
+  background: radial-gradient(circle, rgba(0,140,40,0.4) 0%, transparent 70%) !important;
+}
+body.nature-mode .app {
+  animation: naturePulse 3s ease-in-out infinite;
+}
+@keyframes naturePulse {
+  0%,100% { box-shadow: 0 0 0px rgba(0,180,50,0); }
+  50%     { box-shadow: 0 0 40px rgba(0,180,50,0.25), inset 0 0 20px rgba(0,180,50,0.08); }
+}
+body.nature-mode::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,80,20,0.2) 100%);
+  transition: all 1.5s ease;
+}
+body.nature-mode .heat-bar-fill {
+  background: linear-gradient(90deg, #00c853, #64dd17, #aeea00) !important;
+  box-shadow: 0 0 8px rgba(0,200,80,0.6) !important;
+}
+
+/* ── OCEAN MODE ── */
+body.ocean-mode::before {
+  background:
+    radial-gradient(ellipse 100% 80% at 50% -5%, rgba(0,120,220,0.65) 0%, rgba(0,80,180,0.35) 40%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 90% 90%, rgba(0,100,200,0.45) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 10% 70%, rgba(0,60,160,0.35) 0%, transparent 50%);
+  transition: all 1.5s ease;
+}
+body.ocean-mode .bg-orb1 {
+  animation: fireModePulse 3s ease-in-out infinite !important;
+  background: radial-gradient(circle, rgba(0,140,255,0.6) 0%, transparent 70%) !important;
+}
+body.ocean-mode .bg-orb2 {
+  animation: fireModePulse 4s ease-in-out 0.8s infinite !important;
+  background: radial-gradient(circle, rgba(0,100,200,0.4) 0%, transparent 70%) !important;
+}
+body.ocean-mode .app {
+  animation: oceanPulse 4s ease-in-out infinite;
+}
+@keyframes oceanPulse {
+  0%,100% { box-shadow: 0 0 0px rgba(0,120,255,0); }
+  50%     { box-shadow: 0 0 40px rgba(0,120,255,0.25), inset 0 0 20px rgba(0,120,255,0.08); }
+}
+body.ocean-mode::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,40,120,0.2) 100%);
+  transition: all 1.5s ease;
+}
+body.ocean-mode .heat-bar-fill {
+  background: linear-gradient(90deg, #0091ea, #00b0ff, #80d8ff) !important;
+  box-shadow: 0 0 8px rgba(0,150,255,0.6) !important;
+}
+
+/* mode transition flash */
+@keyframes modeFlash {
+  0%   { opacity: 0; }
+  20%  { opacity: 0.5; }
+  100% { opacity: 0; }
+}
+.mode-flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9997;
+  opacity: 0;
+}
+.mode-flash.active { animation: modeFlash 1s ease forwards; }
+
+
+/* ── BURN EFFECT ── */
+@keyframes burnOut {
+  0%   { filter: brightness(1); transform: rotateY(180deg) scale(1); }
+  30%  { filter: brightness(2) saturate(3) hue-rotate(-20deg); transform: rotateY(180deg) scale(1.02); }
+  60%  { filter: brightness(3) blur(1px); transform: rotateY(180deg) scale(0.98); opacity: 0.7; }
+  100% { filter: brightness(4) blur(4px); transform: rotateY(180deg) scale(0.8); opacity: 0; }
+}
+.card-front.burning {
+  animation: burnOut 0.9s ease forwards;
+}
+
+/* burn sparks */
+.spark {
+  position: fixed;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: sparkFly var(--dur) ease-out forwards;
+}
+@keyframes sparkFly {
+  0%   { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
+}
+
+/* ── SHUFFLE ANIMATION ── */
+.shuffle-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.shuffle-card {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #1c0404 0%, #3a0808 45%, #1c0404 100%);
+  border: 1px solid rgba(212,168,67,0.2);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateX(0) rotate(0deg);
+}
+.shuffle-card-inner {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 900;
+  color: rgba(212,168,67,0.3);
+  text-align: center;
+  line-height: 1;
+}
+
+@keyframes shuffleLeft {
+  0%   { opacity: 1; transform: translateX(0) rotate(0deg); }
+  40%  { opacity: 1; transform: translateX(-80px) rotate(-12deg); }
+  70%  { opacity: 1; transform: translateX(-40px) rotate(-6deg); }
+  100% { opacity: 0; transform: translateX(0) rotate(0deg); }
+}
+@keyframes shuffleRight {
+  0%   { opacity: 1; transform: translateX(0) rotate(0deg); }
+  40%  { opacity: 1; transform: translateX(80px) rotate(12deg); }
+  70%  { opacity: 1; transform: translateX(40px) rotate(6deg); }
+  100% { opacity: 0; transform: translateX(0) rotate(0deg); }
+}
+@keyframes shuffleUp {
+  0%   { opacity: 0.8; transform: translateY(0) scale(1); }
+  50%  { opacity: 1; transform: translateY(-20px) scale(1.05); }
+  100% { opacity: 0; transform: translateY(-10px) scale(0.95); }
+}
+
+/* ── FIREWORKS ── */
+.firework-canvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9996;
+}
+
+/* ── WORD REVEAL (slow text) ── */
+.word-span {
+  display: inline;
+  opacity: 0;
+  filter: blur(4px);
+  transition: opacity 0.3s ease, filter 0.3s ease;
+}
+.word-span.visible {
+  opacity: 1;
+  filter: blur(0);
 }
 
 </style>
 </head>
 
 <body>
+
+<div class="bg-orb1"></div>
+<div class="bg-orb2"></div>
+<!-- Particles -->
+<div id="particles"></div>
+
 <div class="app">
 
   <!-- WELCOME -->
   <div class="screen active" id="welcomeScreen">
     <div class="logo-wrap">
       <div class="logo-eyebrow">משחק זוגות</div>
-      <div class="logo-title">בלי<br>פילטר</div>
+      <div class="logo-title" id="logoTitle"></div>
       <div class="logo-divider"></div>
       <div class="logo-subtitle">קלפים שמקרבים. שאלות שמעמיקות.</div>
     </div>
-    <button class="btn btn-primary" onclick="showScreen('introScreen')">🃏 בואו נתחיל</button>
+    <div class="welcome-cta">
+      <button class="btn btn-primary" onclick="showScreen('introScreen')">🃏 בואו נתחיל</button>
+    </div>
   </div>
-
 
   <!-- INTRO -->
   <div class="screen" id="introScreen">
     <div class="intro-icon">🃏</div>
     <div class="intro-title">איך משחקים?</div>
     <div class="intro-box">
-      <div class="intro-row">
-        <span class="intro-emoji">👥</span>
-        <span>המשחק מיועד לשניים — כל תור שחקן אחד בוחר סוג קלף</span>
-      </div>
-      <div class="intro-row">
-        <span class="intro-emoji">💬</span>
-        <span><strong style="color:white">קלף שיחה</strong> — שאלות שמעמיקות ומקרבות</span>
-      </div>
-      <div class="intro-row">
-        <span class="intro-emoji">⚡</span>
-        <span><strong style="color:white">קלף משימה</strong> — אתגרים מצחיקים ומרגשים</span>
-      </div>
-      <div class="intro-row">
-        <span class="intro-emoji">🔥</span>
-        <span><strong style="color:white">קלף בלי פילטר</strong> — מופיע בהפתעה, שאלות אמיתיות בלי פשרות</span>
-      </div>
-      <div class="intro-row">
-        <span class="intro-emoji">🎯</span>
-        <span>היו כנים, היו נוכחים — זה הסוד של המשחק</span>
-      </div>
+      <div class="intro-row"><span class="intro-emoji">👥</span><span>המשחק מיועד לשניים — כל תור שחקן אחד בוחר סוג קלף</span></div>
+      <div class="intro-row"><span class="intro-emoji">💬</span><span><strong style="color:white">קלף שיחה</strong> — שאלות שמעמיקות ומקרבות</span></div>
+      <div class="intro-row"><span class="intro-emoji">⚡</span><span><strong style="color:white">קלף משימה</strong> — אתגרים מצחיקים ומרגשים</span></div>
+      <div class="intro-row"><span class="intro-emoji">🔥</span><span><strong style="color:white">קלף בלי פילטר</strong> — מופיע בהפתעה, שאלות אמיתיות בלי פשרות</span></div>
+      <div class="intro-row"><span class="intro-emoji">🎯</span><span>היו כנים, היו נוכחים — זה הסוד של המשחק</span></div>
     </div>
     <button class="btn btn-primary" onclick="showScreen('spotifyScreen')">המשך ➜</button>
   </div>
@@ -669,9 +1142,9 @@ body::after {
     <div class="spotify-title">🎵 מוזיקה לאווירה</div>
     <div class="spotify-sub">סרקו את הקוד או לחצו על הקישור<br>להפעלת הפלייליסט המושלם למשחק</div>
     <div class="qr-wrap">
-      <img src="https://static.wixstatic.com/media/e123f8_446982816f7d4cd1b10ee216bb94a1d2~mv2.png" alt="Spotify QR">
+      <img src="https://static.wixstatic.com/media/e123f8_446982816f7d4cd1b10ee216bb94a1d2~mv2.png" alt="QR">
     </div>
-    <a class="spotify-btn" href="https://open.spotify.com/playlist/7aWVeBt72R9QwG6Fz4oI39?si=Wbe-OPb0TuaWEfPrYBX2Qw&pi=uJYbdE49QESP4" target="_blank">▶ פתח פלייליסט בספוטיפי</a>
+    <a class="spotify-btn" href="https://open.spotify.com/playlist/7aWVeBt72R9QwG6Fz4oI39" target="_blank">▶ פתח פלייליסט בספוטיפי</a>
     <button class="btn btn-gold" onclick="goToSetup()">✨ יאללה נתחיל!</button>
   </div>
 
@@ -686,9 +1159,17 @@ body::after {
       <label class="input-label" for="p1">שחקן ראשון</label>
       <input id="p1" class="input" placeholder="השם שלך..." autocomplete="off">
     </div>
-    <div class="input-group" style="margin-bottom:20px">
+    <div class="emoji-picker-wrap">
+      <span class="emoji-label">בחר אווטאר</span>
+      <div class="emoji-grid" id="emojiGrid1"></div>
+    </div>
+    <div class="input-group" style="margin-top:14px">
       <label class="input-label" for="p2">שחקן שני</label>
       <input id="p2" class="input" placeholder="השם שלך..." autocomplete="off">
+    </div>
+    <div class="emoji-picker-wrap" style="margin-bottom:22px">
+      <span class="emoji-label">בחר אווטאר</span>
+      <div class="emoji-grid" id="emojiGrid2"></div>
     </div>
     <button class="btn btn-primary" onclick="startGame()">✨ התחל משחק</button>
     <button class="btn btn-ghost" style="margin-top:10px" onclick="goBack()">חזרה</button>
@@ -697,35 +1178,52 @@ body::after {
   <!-- GAME -->
   <div class="screen" id="gameScreen">
     <div class="turn-bar">
+      <span class="player-avatar" id="playerAvatar">🎮</span>
       <div class="turn-label">התור של</div>
       <div class="turn-name" id="turnName">—</div>
     </div>
-
-    <div class="deck-status">
-      <span class="deck-pill blue" id="pillConv">💬 <span id="countConv">0</span></span>
-      <span class="deck-pill red"  id="pillChal">⚡ <span id="countChal">0</span></span>
-      <span class="deck-pill orange" id="pillFilt">🔥 <span id="countFilt">0</span></span>
+    <div class="heat-wrap">
+      <span class="heat-label">🌡️ חום</span>
+      <div class="heat-bar-bg"><div class="heat-bar-fill" id="heatBar"></div></div>
+      <span class="heat-icon" id="heatIcon">🔥</span>
     </div>
 
-    <div class="card-wrap">
-      <div class="card-placeholder" id="cardPlaceholder">
-        <div class="card-placeholder-icon">🃏</div>
-        <div class="card-placeholder-text">בחרו סוג קלף</div>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="deck-status">
+      <span class="deck-pill blue">💬 <span id="countConv">0</span></span>
+      <span class="deck-pill red">⚡ <span id="countChal">0</span></span>
+      <span class="deck-pill orange">🔥 <span id="countFilt">0</span></span>
+    </div>
+    <div class="timer-wrap" id="timerWrap">
+      <div class="timer-ring-wrap">
+        <svg viewBox="0 0 70 70" width="70" height="70">
+          <circle class="timer-bg" cx="35" cy="35" r="30"/>
+          <circle class="timer-fg" id="timerRing" cx="35" cy="35" r="30"/>
+        </svg>
+        <div class="timer-num" id="timerNum">--</div>
       </div>
-      <div class="card-scene" id="cardScene" style="display:none">
-        <div class="card-flipper" id="cardFlipper">
-          <!-- BACK -->
-          <div class="card-face card-back">
-            <div class="card-back-pattern">
-              <div class="card-back-logo">בלי<br>פילטר</div>
-            </div>
+      <button class="timer-start-btn" id="timerStartBtn" onclick="startTimer()">▶ התחל זמן</button>
+    </div>
+
+    <div class="card-placeholder" id="cardPlaceholder">
+      <div class="card-placeholder-icon">🃏</div>
+      <div class="card-placeholder-text">בחרו סוג קלף</div>
+    </div>
+
+    <div class="card-scene" id="cardScene" style="display:none">
+      <div class="card-flipper" id="cardFlipper">
+        <div class="card-face card-back">
+          <div class="card-back-inner">
+            <div class="card-back-logo">בלי<br>פילטר</div>
           </div>
-          <!-- FRONT -->
-          <div class="card-face card-front" id="cardFront">
-            <div class="card-badge" id="cardBadge" style="display:none"></div>
-            <div class="card-inner">
-              <div class="card-text" id="cardText"></div>
-            </div>
+        </div>
+        <div class="card-face card-front" id="cardFront">
+          <div class="card-streak" id="cardStreak"></div>
+          <div class="card-badge" id="cardBadge" style="display:none"></div>
+          <div class="card-inner">
+            <div class="card-text" id="cardText"></div>
           </div>
         </div>
       </div>
@@ -734,12 +1232,16 @@ body::after {
     <div class="actions" id="choiceActions">
       <div class="actions-row">
         <button class="btn btn-secondary" id="btnConversation" onclick="draw('conversation')">💬 קלף שיחה</button>
-        <button class="btn btn-primary"   id="btnChallenge"    onclick="draw('challenge')">⚡ קלף משימה</button>
+        <button class="btn btn-primary" id="btnChallenge" onclick="draw('challenge')">⚡ קלף משימה</button>
       </div>
+      <button class="btn btn-random" id="btnRandom" onclick="toggleRandom()">🎲 בחירה אקראית</button>
+      <div class="random-indicator" id="randomIndicator"></div>
     </div>
 
     <div class="actions" id="nextAction" style="display:none">
       <button class="btn btn-gold" onclick="next()">הבא ➜</button>
+      <button class="btn btn-random" id="btnRandomNext" onclick="toggleRandom()" style="font-size:13px">🎲 בחירה אקראית</button>
+      <div class="random-indicator" id="randomIndicatorNext"></div>
     </div>
   </div>
 
@@ -750,7 +1252,7 @@ body::after {
     <div class="end-sub">עברתם את כל הקלפים יחד ❤️</div>
     <div class="end-box">
       מקווים שנהניתם, צחקתם והתקרבתם קצת יותר 😉<br><br>
-      נשמח ממש לשמוע איך היה לכם<br>ומה הייתם משפרים 🙌
+      נשמח ממש לשמוע איך היה לכם ומה הייתם משפרים 🙌
     </div>
     <button class="btn btn-primary" onclick="restartGame()">🔄 משחק חדש</button>
   </div>
@@ -758,201 +1260,454 @@ body::after {
 </div>
 
 <div class="flash-overlay" id="flashOverlay"></div>
+<canvas id="confetti-canvas"></canvas>
+<div class="mode-flash" id="modeFlash"></div>
+<canvas class="firework-canvas" id="fireworkCanvas"></canvas>
 
 <script>
-/* ─── DATA ─── */
+/* ── PARTICLES ── */
+function initParticles() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.setProperty('--dur',   (8 + Math.random() * 12) + 's');
+    p.style.setProperty('--delay', (Math.random() * 12) + 's');
+    p.style.setProperty('--op',    (0.15 + Math.random() * 0.3).toFixed(2));
+    p.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+    p.style.left = (Math.random() * 100) + '%';
+    p.style.width = p.style.height = (1 + Math.random() * 2.5) + 'px';
+    container.appendChild(p);
+  }
+}
+
+/* ── DATA ── */
 const DATA = {
   conversation: [
-    "אם היית יכול לשנות לפרטנר שלך את השם איזה שם היית בוחר?",
-    "מה המחווה הכי יפה שהפרטנר שלך עשה עבורך?",
-    "מה הדבר שאתה הכי נהנה ממנו בזוגיות שלכם?",
-    "מה הדבר בפרטנר שלך שהכי משך אותך בהתחלה?",
-    "מה הדבר שאתה הכי רוצה שתעשו ביחד?",
-    "איזו חיה הכי מאפיינת את הפרטנר שלך לדעתך?",
-    "איך נראה בעיניך הבוקר המושלם שלכם?",
-    "איזה דבר בזוגיות היית משנה או עושה אחרת?",
-    "האם אתה מרגיש שאתה מצליח להיות עצמך בזוגיות הזו?",
-    "מה הדבר הכי יפה בפרטנר שלך בעיניך?",
-    "ספר זיכרון ילדות שלעולם לא תשכח",
-    "מה הדבר הכי חשוב לך בפרטנר שלך?",
-    "איך אתה מדמיין את הבית העתידי שלכם?",
-    "איזה כלי נגינה היית רוצה ללמוד?",
-    "מה הטמפרטורה המושלמת במזגן לדעתך ולמה?",
-    "אם היית חטיף איזה חטיף היית?",
-    "מי יותר מצחיק בזוגיות שלכם?",
-    "מה החוויה הכי מצחיקה שהייתה לכם ביחד?",
-    "איזו תכונה אתה הכי מעריך בפרטנר שלך?",
-    "מה הדבר שהפרטנר שלך עושה שגורם לך להרגיש קרוב אליו?",
-    "מתי בפעם האחרונה הסתכלת על הפרטנר שלך וחשבת איזה מזל יש לך?",
-    "מה הדבר שאתה הכי מפחד לאבד בקשר הזה?",
-    "אם הפרטנר שלך היה משתנה לגמרי מחר מה היית רוצה שיישאר בו?",
-    "מה הדבר הכי קטן שהפרטנר שלך עושה שמדליק אותך?",
-    "מתי הרגשת הכי בנוח להיות עצמך ליד הפרטנר שלך?",
-    "מה הדבר בפרטנר שלך שאתה חושב שאחרים לא מבינים?",
-    "אם הייתם מתחילים מחדש מה היית עושה אחרת?",
-    "מה הרגע שבו הבנת שאתה רוצה את הפרטנר שלך?",
-    "מה הדבר שאתה הכי מתגעגע אליו מתחילת הקשר?",
-    "מה הדבר הכי כנה שאתה חושב על הפרטנר שלך אבל לא תמיד אומר?",
-    "מתי הרגשת שהפרטנר שלך הכי מושך בעיניך?",
-    "מה הדבר שאתה הכי צריך מהפרטנר שלך לאחרונה?",
-    "אם היית צריך לתאר את הקשר שלכם במילה אחת מה היא?",
-    "מה גורם לך להרגיש שהפרטנר שלך באמת רואה אותך?",
-    "מה רגע קטן שהיה משמעותי עבורך בזוגיות?",
-    "מה הדבר שאתה הכי מעריך בפרטנר שלך לאחרונה?",
-    "מה הכי הפתיע אותך בפרטנר שלך מאז שהכרתם?",
-    "איזה רגע שלכם היית שומר לנצח?",
-    "מה הדבר שאתה הכי רוצה לשפר בזוגיות שלכם?"
+    "אם היית יכול לשנות לי את השם איזה שם היית בוחר",
+    "מה המחווה הכי יפה שעשיתי עבורך",
+    "מה הדבר שאתה הכי נהנה ממנו בזוגיות שלנו",
+    "מה הדבר בי שהכי משך לך את העין",
+    "מה הדבר שאתה הכי רוצה שנעשה ביחד",
+    "איזו חיה הכי מאפיינת אותי לדעתך",
+    "איך נראה בעיניך הבוקר המושלם",
+    "איזה דבר בזוגיות שלנו היית עושה אחרת",
+    "האם אתה מצליח להיות עצמך בזוגיות שלנו",
+    "מה הדבר הכי יפה בי",
+    "זיכרון ילדות שלא תשכח",
+    "מה הכי חשוב לך בפרטנר",
+    "איך אתה מדמיין את הבית העתידי שלך",
+    "איזה כלי נגינה היית רוצה ללמוד",
+    "מה הטמפרטורה המושלמת במזגן ולמה",
+    "אם היית חטיף איזה היית",
+    "מי יותר מצחיק בזוגיות",
+    "החוויה הכי מצחיקה שלנו",
+    "תכונה שאתה הכי מעריך בי",
+    "מה גורם לך להרגיש קרוב אליי",
+    "מתי חשבת איזה מזל יש לך",
+    "מה אתה מפחד לאבד בקשר",
+    "מה היית רוצה שיישאר בי אם אשתנה",
+    "מה אני עושה שמדליק אותך בלי לשים לב",
+    "מתי הרגשת הכי בנוח לידי",
+    "מה אחרים לא מבינים בי",
+    "אם היינו מתחילים מחדש",
+    "מתי הבנת שאתה רוצה אותי",
+    "למה אתה מתגעגע מתחילת הקשר",
+    "מה אתה חושב ולא אומר",
+    "מתי הייתי הכי מושך בעיניך",
+    "מה אתה צריך ממני לאחרונה",
+    "תיאור הקשר במילה",
+    "מה גורם לך להרגיש שרואים אותך",
+    "רגע קטן משמעותי",
+    "מה אתה מעריך בי לאחרונה",
+    "מה הפתיע אותך בי",
+    "איזה רגע היית שומר לנצח",
+    "מה אתה הכי רוצה לשפר בינינו",
+    "מה הדבר הכי קטן שאני עושה שמוריד לך אבל אתה בוחר להתעלם ממנו",
+    "יש משהו שאתה מרגיש שחסר לך בזוגיות אבל אתה מפחד להעלות",
+    "מתי הרגשת ספק אמיתי לגביי ולא שיתפת אותי",
+    "יצא לך לדמיין את עצמך עם מישהו אחר בזמן שאנחנו ביחד",
+    "מה הדבר בי שאתה הכי מפחד שייעלם עם הזמן",
+    "יש משהו בי שאתה מקנא בו אבל לא מודה בזה",
+    "מה הדבר הכי אמיתי שאתה רוצה להגיד לי עכשיו אבל מפחד מהתגובה",
+    "מתי נפגעת ממני ובחרת לשמור את זה לעצמך ולמה",
+    "אתה מרגיש שאתה נותן יותר או מקבל יותר בקשר",
+    "אם היית חייב לשנות בי דבר אחד מה זה היה ולמה",
+    "מה הדבר שאני עושה שמדליק אותך אבל אני לא מודע אליו",
+    "יצא לך לחשוב על מישהו אחר בצורה מינית בזמן שאנחנו בקשר",
+    "מה הפנטזיה הכי קלה שיש לך שקשורה אליי אבל עוד לא אמרת",
+    "יש משהו במראה שלי שהיית רוצה שישתנה אבל לא אומר",
+    "מתי הסתכלת עליי וחשבת עליי בצורה מינית ממש",
+    "יש משהו שאני עושה במיטה שאתה לא אוהב אבל לא אומר",
+    "מה הדבר הכי מפתיע שגילית על עצמך מאז שאנחנו ביחד",
+    "אם היית צריך לדרג אותי כבן זוג במיטה מאחד עד עשר מה היית נותן",
+    "יש משהו שאתה רוצה שננסה יחד אבל אתה מתבייש להציע",
+    "מה הדבר הכי נועז שרצית לעשות איתי אבל עצרת את עצמך",
+    "מתי הרגשת שאני באמת לא מבין אותך",
+    "מה הדבר שהכי מפחיד אותך שיקרה לנו בשנה הקרובה",
+    "יש רגע שאתה עדיין סוחב מהעבר שמשפיע על איך שאתה איתי",
+    "מתי הרגשת הכי רחוק ממני למרות שהיינו ביחד",
+    "מה הדבר שאתה הכי צריך ממני בתקופה הזאת ולא תמיד מקבל",
+    "יש משהו בי שפעם אהבת יותר והיום פחות",
+    "מה הדבר שאתה הכי מפחד להגיד לי כי לא יודע איך אגיב",
+    "מתי הרגשת לבד בתוך הקשר שלנו",
+    "מה הדבר הכי חשוב לך שאני אבין עליך ועדיין לא הצלחתי",
+    "אם היית צריך לבחור רגע שבו כמעט ויתרת על הקשר איזה רגע זה היה",
+    "אם היית צריך לבחור דבר אחד בקשר שאתה לא בטוח לגביו מה זה היה",
+    "מה הדבר בי שאתה הכי מפחד לאבד אבל גם הכי קשה להודות בו",
+    "אם היינו נפרדים מחר מה הדבר הראשון שהכי היה חסר לך",
+    "יש משהו שאתה מרגיש שאני לא רואה בך למרות שחשוב לך",
+    "מה הרגע שהרגשת הכי בטוח איתי אבל גם הכי חשוף",
+    "מה הדבר שלמדת על עצמך מאז שאנחנו ביחד",
+    "מה החלום הכי גדול שלך שאני חלק ממנו",
+    "מה הדבר שאתה הכי גאה בו בקשר שלנו",
+    "אם היית כותב לי מכתב שאקרא עוד עשר שנים מה היית כותב",
+    "מה הרגע הראשון שהרגשת שאתה באמת מאוהב בי",
+    "אם היית צריך לתאר את הקשר שלנו בשיר או סרט מה היית בוחר ולמה"
   ],
   challenge: [
-    "נשק את הפרטנר שלך איפה שתרצה",
+    "נשק אותי איפה שתרצה",
     "הורד פריט לבוש אחד",
-    "בחר חלק בגוף של הפרטנר שלך ותגיד למה אתה אוהב אותו",
-    "הסתכל לפרטנר שלך בעיניים עשרים שניות בלי לדבר",
+    "בחר חלק בגוף שלי ותגיד למה אתה אוהב אותו",
+    "הסתכל לי בעיניים עשרים שניות בלי לדבר",
     "ספר בדיחה גם אם היא גרועה",
-    "הורד חולצה והפרטנר שלך ינשק לך את הגב עשרים שניות",
-    "בחר אזור בבטן התחתונה של הפרטנר שלך ונשק אותו במשך חמש עשרה שניות",
-    "בצע עשר שכיבות סמיכה כשהפרטנר שלך מתחתיך ותן נשיקה בכל ירידה",
-    "הורד מהפרטנר שלך פריט לבוש בעזרת השיניים בלבד",
-    "בחר אזור בגוף של הפרטנר שלך ותן לו נשיקות במשך עשרים שניות",
-    "נשק את הבטן של הפרטנר שלך בחושניות במשך שלושים שניות",
-    "עשה לפרטנר שלך מסאז ברגליים במשך דקה",
-    "עשה הורדת ידיים עם הפרטנר שלך והמפסיד מבצע משימה לבחירת המנצח",
-    "עשה חיקוי של הפרטנר שלך בצורה מצחיקה",
-    "בחר איבר בגוף של הפרטנר שלך ותמציא לו שם מצחיק",
-    "דמיין שאתם זרים ותתחיל עם הפרטנר שלך",
-    "נסה לגרום לפרטנר שלך להתקרב אליך בלי לגעת בו",
-    "עשה משהו שיגרום לפרטנר שלך לאבד ריכוז",
-    "עשה משהו לפרטנר שלך בלי לשאול",
-    "הובל את הפרטנר שלך בעיניים עצומות ותעשה משהו מפתיע",
-    "אמור משפט מביך בצורה מפתה לפרטנר שלך",
-    "המצא לפרטנר שלך כינוי חדש והשתמש בו עד סוף המשחק",
-    "נסה למכור לפרטנר שלך מוצר דמיוני",
-    "המצא סיפור איך הכרתם בצורה מופרכת",
-    "חקה חיה והפרטנר שלך צריך לנחש איזו",
-    "עשה מסלול דוגמנות מוגזם מול הפרטנר שלך",
-    "נסה לא לצחוק בזמן שהפרטנר שלך מצחיק אותך",
+    "הורד חולצה ואני אנשק לך את הגב עשרים שניות",
+    "בחר אזור בבטן התחתונה שלי ונשק אותו חמש עשרה שניות",
+    "עשה עשר שכיבות סמיכה עם נשיקה בכל ירידה",
+    "הורד ממני פריט לבוש בעזרת השיניים",
+    "בחר אזור מתחת למותניים שלי ותן לו נשיקות עשרים שניות",
+    "נשק את הבטן שלי בחושניות שלושים שניות",
+    "עשה לי מסאז ברגליים דקה שלמה",
+    "עשו הורדת ידיים והמפסיד מבצע משימה",
+    "עשה חיקוי שלי בצורה מצחיקה",
+    "בחר איבר בגוף שלי ותמציא לו שם מצחיק",
+    "דמיין שאנחנו זרים ותתחיל איתי",
+    "נסה לגרום לי להתקרב אליך בלי לגעת בי",
+    "עשה משהו שיגרום לי לאבד ריכוז",
+    "עשה משהו לי בלי לשאול",
+    "הובל אותי בעיניים עצומות ועשה משהו מפתיע",
+    "אמור משפט מביך בצורה מפתה",
+    "המצא לי כינוי ותשתמש בו עד סוף המשחק",
+    "נסה למכור לי מוצר דמיוני",
+    "המצא סיפור איך הכרנו בצורה מופרכת",
+    "חקה חיה ואני אנחש",
+    "עשה מסלול דוגמנות מוגזם",
+    "נסה לא לצחוק כשאני מצחיק אותך",
     "צור שיר קצר עם המילים בלי פילטר",
-    "חקה את הפרטנר שלך כשהוא כועס",
-    "המצא סיבה מוזרה למה אתה מאוהב בפרטנר שלך",
-    "גרום למשהו שאתה רוצה שיקרה לקרות בלי להגיד לפרטנר שלך"
+    "חקה אותי כשאני כועס",
+    "המצא סיבה מוזרה למה אתה מאוהב בי",
+    "גרום למשהו לקרות בלי להגיד",
+    "נשק את הירך הפנימית שלי שלושים שניות",
+    "הסר לאט את הגרביים שלי ונשק כל כף רגל",
+    "על הפרטנר לעצום עיניים ולנחש שלושה איברים בגוף שתיתן לו ללקק",
+    "בחר שלושה מקומות על הגוף שלך ותגיד לי לגעת בהם בדיוק — אני לא רואה רק מרגיש",
+    "כתוב באצבע על הגוף שלי מילה אחת ואני מנחש מה כתבת",
+    "החליפו חולצות ולבשו אותן",
+    "בקש ממני לעצום עיניים והכן לי הפתעה קטנה עם מה שיש בסביבה",
+    "החליפו תפקידים לדקה — אתה מתנהג כמוני ואני כמוך",
+    "החליטו ביחד על כלל אחד חדש למשחק ושמרו אותו עד הסוף"
   ],
   noFilter: [
-    "מה הדבר הכי קטן שהפרטנר שלך עושה שמדליק אותך?",
-    "האם יש משהו בפרטנר שלך שלפעמים מוריד לך ואתה לא אומר?",
-    "האם היה רגע שהרגשת רחוק מהפרטנר שלך ולא אמרת כלום?",
-    "האם יש משהו שהיית רוצה שהפרטנר שלך יעשה אחרת במיטה?",
-    "האם יש משהו שאתה מסתיר מהפרטנר שלך?",
-    "מתי הרגשת שהפרטנר שלך לא מבין אותך בכלל?",
-    "מה הכי חסר לך מהפרטנר שלך לאחרונה?",
-    "מה הדבר שאתה הכי רוצה לשמוע מהפרטנר שלך אבל לא מקבל?",
-    "האם יש משהו במראה של הפרטנר שלך שהיית משנה?",
-    "האם יש משהו שאתה עושה בזוגיות רק כדי לא לפגוע בפרטנר שלך?"
+    "מה הדבר הכי קטן שאני עושה שמדליק אותך במיוחד",
+    "האם יש משהו בי שמוריד לך",
+    "האם הרגשת רחוק ממני ולא אמרת",
+    "האם יש משהו שהיית רוצה שנעשה אחרת במיטה",
+    "האם אתה מסתיר ממני משהו",
+    "מתי הרגשת שאני לא מבין אותך",
+    "מה הכי חסר לך ממני לאחרונה",
+    "מה אתה רוצה לשמוע ממני ולא אומר",
+    "האם היית משנה משהו במראה שלי",
+    "האם אתה עושה משהו רק כדי לא לפגוע בי",
+    "מתי הרגשת שאתה אוהב אותי יותר מאשר אני אוהב אותך",
+    "אם היית יכול לשאול אותי שאלה אחת ולקבל תשובה אמיתית מה היית שואל",
+    "יש דבר שאני עושה שגורם לך להרגיש לא מספיק טוב בשבילי",
+    "אם היית יכול לשנות דבר אחד בדרך שאנחנו מתקשרים מה זה היה",
+    "יש משהו שאמרתי לך פעם שעוד כואב לך עד היום",
+    "יש רגע שהרגשת שאתה לא מספיק טוב בשבילי",
+    "יש משהו שעשיתי שעוד לא סלחת לי עליו באמת",
+    "אם היית יכול לדעת תשובה אחת עליי מה היית רוצה לדעת",
+    "אם היית יכול לחזור לרגע אחד בינינו ולשנות אותו מה זה היה",
+    "האם אי פעם חיטטת לי בטלפון"
   ]
 };
 
-/* ─── STATE ─── */
-let decks = {};
-let p1Name = '', p2Name = '', currentPlayer = '';
-let lastWasNoFilter = false;
-let totalCardsDrawn = 0;
-let noFilterSchedule = []; // האינדקסים שבהם יצא קלף בלי פילטר
+/* ── STATE ── */
+let decks = {}, p1Name = '', p2Name = '', currentPlayer = '';
+let lastWasNoFilter = false, totalCardsDrawn = 0, noFilterSchedule = [];
+let randomMode = false;
+let p1Emoji = '😎', p2Emoji = '😍';
+let heatLevel = 0; // 0-100
+let cardsSinceStart = 0;
+let modeIndex = 0; // 0=fire, 1=nature, 2=ocean
 
-/* ─── UTILS ─── */
+const EMOJIS = ['😎','😍','🥰','🔥','😈','👑','🌹','💎','🐯','🦋','⚡','🌙'];
+
+const MODES = [
+  { name: 'fire',   icon: '🔥', bodyClass: 'fire-mode',   flashColor: 'rgba(255,80,0,0.4)',   heatColor: null },
+  { name: 'nature', icon: '🌿', bodyClass: 'nature-mode', flashColor: 'rgba(0,180,60,0.4)',   heatColor: null },
+  { name: 'ocean',  icon: '🌊', bodyClass: 'ocean-mode',  flashColor: 'rgba(0,120,255,0.4)',  heatColor: null },
+];
+
+/* ── UTILS ── */
 function shuffle(arr) {
   const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
+  for (let i = a.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
   }
   return a;
 }
 
-// בונה לוח זמנים — מתי יצאו קלפי בלי פילטר לאורך המשחק
-function buildNoFilterSchedule(totalRegular, noFilterCount) {
-  // מחלקים את המשחק ל-noFilterCount חלקים שווים
-  // ובכל חלק בוחרים עמדה אקראית (לא ראשונה ולא אחרונה)
-  const schedule = [];
-  const chunkSize = Math.floor(totalRegular / noFilterCount);
-  for (let i = 0; i < noFilterCount; i++) {
-    const start = i * chunkSize + Math.floor(chunkSize * 0.25);
-    const end   = i * chunkSize + Math.floor(chunkSize * 0.85);
-    const pos   = start + Math.floor(Math.random() * (end - start + 1));
-    schedule.push(pos);
+function buildNoFilterSchedule(total, count) {
+  const schedule = [], chunk = Math.floor(total/count);
+  for (let i = 0; i < count; i++) {
+    const s = i*chunk + Math.floor(chunk*0.25);
+    const e = i*chunk + Math.floor(chunk*0.85);
+    schedule.push(s + Math.floor(Math.random()*(e-s+1)));
   }
   return schedule;
 }
 
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
-    s.style.display = 'none';
-  });
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
   const el = document.getElementById(id);
   el.style.display = 'flex';
   void el.offsetWidth;
   el.classList.add('active');
-  window.scrollTo(0, 0);
+  window.scrollTo(0,0);
 }
 
 function initApp() {
-  document.querySelectorAll('.screen').forEach(s => {
-    s.classList.remove('active');
-    s.style.display = 'none';
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display='none'; });
+  const w = document.getElementById('welcomeScreen');
+  w.style.display = 'flex';
+  w.classList.add('active');
+  initParticles();
+  animateLogo();
+  initEmojiPickers();
+}
+
+function animateLogo() {
+  const container = document.getElementById('logoTitle');
+  if (!container) return;
+  const lines = ['בלי', 'פילטר'];
+  container.innerHTML = '';
+  let delay = 0;
+  lines.forEach((line, li) => {
+    const lineDiv = document.createElement('div');
+    [...line].forEach(ch => {
+      const span = document.createElement('span');
+      span.className = 'letter';
+      span.textContent = ch;
+      span.style.animationDelay = delay + 's';
+      // after drop add flicker
+      setTimeout(() => span.classList.add('lit'), delay * 1000 + 500);
+      delay += 0.1;
+      lineDiv.appendChild(span);
+    });
+    container.appendChild(lineDiv);
+    if (li < lines.length - 1) container.appendChild(document.createElement('br'));
   });
-  const welcome = document.getElementById('welcomeScreen');
-  welcome.style.display = 'flex';
-  welcome.classList.add('active');
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
-} else {
-  initApp();
+function initEmojiPickers() {
+  ['1','2'].forEach(n => {
+    const grid = document.getElementById('emojiGrid' + n);
+    if (!grid) return;
+    grid.innerHTML = '';
+    EMOJIS.forEach((em, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'emoji-opt' + (i === (n==='1'?0:1) ? ' selected' : '');
+      btn.textContent = em;
+      btn.onclick = () => {
+        grid.querySelectorAll('.emoji-opt').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        if (n === '1') p1Emoji = em; else p2Emoji = em;
+      };
+      grid.appendChild(btn);
+    });
+    if (n === '1') p1Emoji = EMOJIS[0];
+    else           p2Emoji = EMOJIS[1];
+  });
 }
 
-function showError(msg) {
-  const el = document.getElementById('errorMsg');
-  el.textContent = msg;
-  el.classList.add('show');
+// initApp called at end of script
+
+function showError(msg) { const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('show'); }
+function hideError()    { document.getElementById('errorMsg').classList.remove('show'); }
+
+function updateAvatar() {
+  const av = document.getElementById('playerAvatar');
+  if (!av) return;
+  const em = currentPlayer === p1Name ? p1Emoji : p2Emoji;
+  av.textContent = em;
+  av.classList.remove('bounce');
+  void av.offsetWidth;
+  av.classList.add('bounce');
 }
 
-function hideError() {
-  document.getElementById('errorMsg').classList.remove('show');
+function updateHeat(delta) {
+  heatLevel = Math.min(100, Math.max(0, heatLevel + delta));
+  const bar  = document.getElementById('heatBar');
+  const icon = document.getElementById('heatIcon');
+  if (bar) {
+    bar.style.width = heatLevel + '%';
+    if (modeIndex === 0) bar.style.background = 'linear-gradient(90deg,#ff8c00,#ff4500,#ff0000)';
+    else if (modeIndex === 1) bar.style.background = 'linear-gradient(90deg,#00c853,#64dd17,#aeea00)';
+    else bar.style.background = 'linear-gradient(90deg,#0091ea,#00b0ff,#80d8ff)';
+  }
+
+  const mode = MODES[modeIndex];
+  if (icon) {
+    if (heatLevel >= 70) { icon.textContent = '🌡️'; icon.classList.add('hot'); icon.style.fontSize = '20px'; }
+    else if (heatLevel >= 35) { icon.textContent = mode.icon; icon.classList.add('hot'); }
+    else { icon.textContent = mode.icon; icon.classList.remove('hot'); icon.style.fontSize = ''; }
+  }
+
+  // apply mode bg always — remove others, add current
+  MODES.forEach(m => document.body.classList.remove(m.bodyClass));
+  document.body.classList.add(mode.bodyClass);
+
+  // cycle mode when full
+  if (heatLevel >= 100) {
+    cycleMode();
+  }
+}
+
+function cycleMode() {
+  modeIndex = (modeIndex + 1) % MODES.length;
+  heatLevel = 0;
+
+  const mode = MODES[modeIndex];
+
+  // remove all mode classes and apply new one IMMEDIATELY
+  MODES.forEach(m => document.body.classList.remove(m.bodyClass));
+  document.body.classList.add(mode.bodyClass);
+
+  // reset bar color immediately - handled by updateHeat
+
+  // flash transition
+  const flash = document.getElementById('modeFlash');
+  flash.style.background = mode.flashColor;
+  flash.classList.remove('active');
+  void flash.offsetWidth;
+  flash.classList.add('active');
+
+  // update heat icon
+  const icon = document.getElementById('heatIcon');
+  if (icon) { icon.textContent = mode.icon; icon.classList.remove('hot'); }
+
+  // reset bar already handled above
+
+  // show big mode announcement
+  showModeAnnouncement(mode);
+}
+
+function showModeAnnouncement(mode) {
+  var ann = document.createElement('div');
+  ann.style.position = 'fixed';
+  ann.style.top = '50%';
+  ann.style.left = '50%';
+  ann.style.transform = 'translate(-50%, -50%) scale(0.3)';
+  ann.style.fontSize = '80px';
+  ann.style.zIndex = '9998';
+  ann.style.textAlign = 'center';
+  ann.style.pointerEvents = 'none';
+  ann.style.transition = 'transform 0.4s cubic-bezier(0.22,1,0.36,1), opacity 0.4s ease';
+  ann.style.opacity = '0';
+  ann.textContent = mode.icon;
+  document.body.appendChild(ann);
+
+  setTimeout(function() {
+    ann.style.transform = 'translate(-50%, -50%) scale(1.2)';
+    ann.style.opacity = '1';
+  }, 50);
+  setTimeout(function() {
+    ann.style.transform = 'translate(-50%, -50%) scale(1)';
+  }, 300);
+  setTimeout(function() {
+    ann.style.opacity = '0';
+    ann.style.transform = 'translate(-50%, -50%) scale(0.5)';
+  }, 900);
+  setTimeout(function() { ann.remove(); }, 1300);
 }
 
 function updateCounters() {
   document.getElementById('countConv').textContent = decks.conversation.length;
   document.getElementById('countChal').textContent = decks.challenge.length;
   document.getElementById('countFilt').textContent = decks.noFilter.length;
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = DATA.conversation.length + DATA.challenge.length + DATA.noFilter.length;
+  const left  = decks.conversation.length + decks.challenge.length + decks.noFilter.length;
+  const pct   = ((total - left) / total) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
 }
 
 function updateButtonState() {
-  const btnC  = document.getElementById('btnConversation');
-  const btnCh = document.getElementById('btnChallenge');
-  if (decks.conversation.length === 0) {
-    btnC.textContent = 'נגמרו כל הקלפים 🎉';
-    btnC.className = 'btn disabled';
-    btnC.onclick = null;
-  }
-  if (decks.challenge.length === 0) {
-    btnCh.textContent = 'נגמרו כל הקלפים 🎉';
-    btnCh.className = 'btn btn-primary disabled';
-    btnCh.onclick = null;
+  const bC = document.getElementById('btnConversation');
+  const bCh = document.getElementById('btnChallenge');
+  if (decks.conversation.length === 0) { bC.textContent='נגמרו 🎉'; bC.className='btn disabled'; bC.onclick=null; }
+  if (decks.challenge.length === 0)    { bCh.textContent='נגמרו 🎉'; bCh.className='btn btn-primary disabled'; bCh.onclick=null; }
+}
+
+function updateRandomUI() {
+  const btns = document.querySelectorAll('#btnRandom, #btnRandomNext');
+  const inds = document.querySelectorAll('#randomIndicator, #randomIndicatorNext');
+  btns.forEach(b => {
+    b.classList.toggle('active-mode', randomMode);
+    b.textContent = randomMode ? '🎲 מצב אקראי פעיל' : '🎲 בחירה אקראית';
+  });
+  inds.forEach(i => {
+    i.textContent = randomMode ? '⚡ המשחק בוחר בשבילך' : '';
+  });
+}
+
+function toggleRandom() {
+  randomMode = !randomMode;
+  updateRandomUI();
+  if (randomMode) {
+    // במצב אקראי — מסתירים כפתורי בחירה ומציגים כפתור "הבא" שיושך קלף
+    document.getElementById('choiceActions').style.display = 'none';
+    document.getElementById('nextAction').style.display = 'flex';
+    // מסתירים קלף קיים אם יש
+    const flipper = document.getElementById('cardFlipper');
+    const front   = document.getElementById('cardFront');
+    flipper.style.transition = 'none';
+    flipper.classList.remove('flipped','nf-shake');
+    front.classList.remove('nf-glow');
+    document.getElementById('cardScene').style.display = 'none';
+    document.getElementById('cardPlaceholder').style.display = 'flex';
+    setTimeout(() => { flipper.style.transition = ''; }, 50);
+  } else {
+    // חזרה לבחירה ידנית
+    document.getElementById('choiceActions').style.display = 'flex';
+    document.getElementById('nextAction').style.display = 'none';
+    document.getElementById('cardScene').style.display = 'none';
+    document.getElementById('cardPlaceholder').style.display = 'flex';
+    const flipper = document.getElementById('cardFlipper');
+    const front   = document.getElementById('cardFront');
+    flipper.style.transition = 'none';
+    flipper.classList.remove('flipped','nf-shake');
+    front.classList.remove('nf-glow');
+    setTimeout(() => { flipper.style.transition = ''; }, 50);
+    updateButtonState();
   }
 }
 
-/* ─── NAVIGATION ─── */
+/* ── NAV ── */
 function goToSetup() { showScreen('setupScreen'); }
 function goBack()    { showScreen('welcomeScreen'); }
 
-/* ─── GAME LOGIC ─── */
+/* ── GAME ── */
 function startGame() {
   p1Name = document.getElementById('p1').value.trim();
   p2Name = document.getElementById('p2').value.trim();
-
-  if (!p1Name || !p2Name) { showError('תכניסו שני שמות כדי להתחיל 😉'); return; }
+  if (!p1Name || !p2Name) { showError('תכניסו שני שמות 😉'); return; }
   if (p1Name === p2Name)  { showError('השמות חייבים להיות שונים 😄'); return; }
-
   hideError();
 
   decks = {
@@ -963,54 +1718,70 @@ function startGame() {
 
   totalCardsDrawn = 0;
   lastWasNoFilter = false;
-  const totalRegular = DATA.conversation.length + DATA.challenge.length;
-  noFilterSchedule = buildNoFilterSchedule(totalRegular, DATA.noFilter.length);
+  noFilterSchedule = buildNoFilterSchedule(DATA.conversation.length+DATA.challenge.length, DATA.noFilter.length);
 
   currentPlayer = p1Name;
+  heatLevel = 0;
+  cardsSinceStart = 0;
+  modeIndex = 0;
+  MODES.forEach(m => document.body.classList.remove(m.bodyClass));
   document.getElementById('turnName').textContent = currentPlayer;
+  updateAvatar();
+  updateHeat(0);
+  document.body.classList.remove('fire-mode');
   updateCounters();
   updateButtonState();
+  updateRandomUI();
 
-  const scene = document.getElementById('cardScene');
-  const flipper = document.getElementById('cardFlipper');
-  scene.style.display = 'none';
-  flipper.classList.remove('flipped', 'no-filter-reveal');
-  document.getElementById('cardFront').classList.remove('no-filter-glow');
-  document.getElementById('cardPlaceholder').style.display = 'flex';
-  document.getElementById('choiceActions').style.display = 'flex';
-  document.getElementById('nextAction').style.display = 'none';
+  const scene=document.getElementById('cardScene'), flipper=document.getElementById('cardFlipper');
+  scene.style.display='none';
+  flipper.classList.remove('flipped','nf-shake');
+  document.getElementById('cardFront').classList.remove('nf-glow');
+  document.getElementById('cardPlaceholder').style.display='flex';
+  document.getElementById('choiceActions').style.display='flex';
+  document.getElementById('nextAction').style.display='none';
 
   showScreen('gameScreen');
 }
 
 function shouldDrawNoFilter() {
-  if (decks.noFilter.length === 0) return false;
-  if (lastWasNoFilter) return false;
+  if (decks.noFilter.length===0||lastWasNoFilter) return false;
   return noFilterSchedule.includes(totalCardsDrawn);
 }
 
 function draw(type) {
-  if (decks[type].length === 0) return;
+  // אם מצב אקראי — בחר בין conversation ו-challenge
+  if (randomMode && type !== 'noFilter') {
+    const avail = [];
+    if (decks.conversation.length > 0) avail.push('conversation');
+    if (decks.challenge.length > 0)    avail.push('challenge');
+    if (avail.length === 0) return;
+    type = avail[Math.floor(Math.random() * avail.length)];
+  }
+
+  if (decks[type].length===0) return;
 
   let finalType = type;
   if (shouldDrawNoFilter()) {
     finalType = 'noFilter';
-    // הסר את האינדקס הזה מהלוח
     noFilterSchedule = noFilterSchedule.filter(n => n !== totalCardsDrawn);
   }
-
-  if (finalType === 'noFilter' && decks.noFilter.length === 0) finalType = type;
+  if (finalType==='noFilter' && decks.noFilter.length===0) finalType=type;
 
   const text = decks[finalType].pop();
-  lastWasNoFilter = (finalType === 'noFilter');
+  lastWasNoFilter = finalType==='noFilter';
   totalCardsDrawn++;
+  cardsSinceStart++;
+  // כל קלף מוסיף 2.5% — 40 קלפים = 100%
+  updateHeat(2.5);
 
   renderCard(finalType, text);
   updateCounters();
 
-  document.getElementById('choiceActions').style.display = 'none';
-  document.getElementById('nextAction').style.display = 'flex';
-  document.getElementById('cardPlaceholder').style.display = 'none';
+  document.getElementById('choiceActions').style.display='none';
+  document.getElementById('nextAction').style.display='flex';
+  document.getElementById('cardPlaceholder').style.display='none';
+  updateRandomUI();
 }
 
 const BG = {
@@ -1019,91 +1790,309 @@ const BG = {
   noFilter:     'url(https://static.wixstatic.com/media/e123f8_ecd2ff2ce90545498eef6db34a01c719~mv2.png)'
 };
 
+// קביעת זמנים לפי טקסט הקלף
+function extractSeconds(text) {
+  const map = [
+    { pattern: /עשרים\s*שניות|20\s*שניות/i,  secs: 20 },
+    { pattern: /שלושים\s*שניות|30\s*שניות/i, secs: 30 },
+    { pattern: /חמש\s*עשרה\s*שניות|15\s*שניות/i, secs: 15 },
+    { pattern: /עשר\s*שניות|10\s*שניות/i,    secs: 10 },
+    { pattern: /דקה\s*שלמה|דקה\s*אחת|למשך\s*דקה/i, secs: 60 },
+    { pattern: /שתי\s*דקות|2\s*דקות/i,       secs: 120 },
+  ];
+  for (const {pattern, secs} of map) {
+    if (pattern.test(text)) return secs;
+  }
+  return 0;
+}
+
+let timerInterval = null;
+let timerSeconds  = 0;
+let timerTotal    = 0;
+const CIRCUMFERENCE = 188.4;
+
+function setupTimer(secs) {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerSeconds  = secs;
+  timerTotal    = secs;
+  const wrap = document.getElementById('timerWrap');
+  const ring = document.getElementById('timerRing');
+  const num  = document.getElementById('timerNum');
+  const btn  = document.getElementById('timerStartBtn');
+  if (secs > 0) {
+    wrap.classList.add('show');
+    ring.style.strokeDashoffset = 0;
+    ring.classList.remove('urgent');
+    num.textContent = secs;
+    btn.disabled = false;
+    btn.textContent = '▶ התחל זמן';
+  } else {
+    wrap.classList.remove('show');
+  }
+}
+
+function startTimer() {
+  const btn  = document.getElementById('timerStartBtn');
+  const ring = document.getElementById('timerRing');
+  const num  = document.getElementById('timerNum');
+  btn.disabled = true;
+  btn.textContent = 'רץ...';
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    const ratio = timerSeconds / timerTotal;
+    ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - ratio);
+    if (timerSeconds <= 5) ring.classList.add('urgent');
+    num.textContent = timerSeconds;
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      num.textContent = '✓';
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    }
+  }, 1000);
+}
+
 function renderCard(type, text) {
   const scene   = document.getElementById('cardScene');
   const flipper = document.getElementById('cardFlipper');
   const front   = document.getElementById('cardFront');
   const badge   = document.getElementById('cardBadge');
   const cardText = document.getElementById('cardText');
+  const streak  = document.getElementById('cardStreak');
 
-  // Reset flip state
-  flipper.classList.remove('flipped', 'no-filter-reveal');
-  front.classList.remove('no-filter-glow');
+  flipper.classList.remove('flipped','nf-shake');
+  front.classList.remove('nf-glow','burning');
+  streak.classList.remove('play');
   void flipper.offsetWidth;
 
-  // Set front content
   front.style.backgroundImage = BG[type];
-  cardText.textContent = text;
+  cardText.innerHTML = '';
+  badge.style.display = type==='noFilter' ? 'block' : 'none';
+  if (type==='noFilter') badge.textContent = '🔥 קלף בלי פילטר';
 
-  if (type === 'noFilter') {
-    badge.textContent = '🔥 קלף בלי פילטר';
-    badge.style.display = 'block';
-  } else {
-    badge.style.display = 'none';
-  }
+  const secs = (type === 'noFilter') ? 0 : extractSeconds(text);
+  setupTimer(secs);
 
-  // Show scene, trigger flip
   scene.style.display = 'block';
   void flipper.offsetWidth;
 
-  setTimeout(() => {
+  // ── SHUFFLE then flip ──
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:absolute;inset:0;z-index:10;pointer-events:none;';
+  scene.appendChild(overlay);
+
+  const anims = ['shuffleLeft','shuffleRight','shuffleUp'];
+  anims.forEach(function(anim, i) {
+    var c = document.createElement('div');
+    c.className = 'shuffle-card';
+    c.innerHTML = '<div class="shuffle-card-inner">בלי<br>פילטר</div>';
+    overlay.appendChild(c);
+    setTimeout(function() {
+      c.style.opacity = '1';
+      c.style.animation = anim + ' 0.6s ease ' + (i*80) + 'ms forwards';
+    }, 10);
+  });
+
+  setTimeout(function() {
+    overlay.remove();
+    void flipper.offsetWidth;
     flipper.classList.add('flipped');
 
-    if (type === 'noFilter') {
-      // אפקט מיוחד — רעידה + פלאש אחרי הפיפ
-      setTimeout(() => {
-        flipper.classList.add('no-filter-reveal');
-        front.classList.add('no-filter-glow');
+    setTimeout(function() { streak.classList.add('play'); }, 340);
+    setTimeout(function() { revealWords(text, document.getElementById('cardText')); }, 420);
+
+    if (type==='noFilter') {
+      setTimeout(function() {
+        flipper.classList.add('nf-shake');
+        document.getElementById('cardFront').classList.add('nf-glow');
         triggerFlash();
-      }, 580);
+        launchConfetti();
+        launchFireworks();
+        if (navigator.vibrate) navigator.vibrate([80,50,120,50,200]);
+      }, 620);
     }
-  }, 80);
+  }, 700);
 }
 
+function revealWords(text, container) {
+  if (!container) return;
+  container.innerHTML = '';
+  var words = text.split(' ');
+  words.forEach(function(word, i) {
+    var span = document.createElement('span');
+    span.className = 'word-span';
+    span.textContent = word + (i < words.length-1 ? ' ' : '');
+    container.appendChild(span);
+    setTimeout(function() { span.classList.add('visible'); }, i * 120);
+  });
+}
+
+
+function launchConfetti() {
+  var canvas = document.getElementById('confetti-canvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.classList.add('show');
+  var colors = ['#d4a843','#f0c060','#e74c3c','#c0392b','#fff','#ffbe70'];
+  var pieces = [];
+  for (var i = 0; i < 80; i++) {
+    pieces.push({
+      x: Math.random()*canvas.width,
+      y: -10 - Math.random()*40,
+      w: 6+Math.random()*8, h: 10+Math.random()*6,
+      color: colors[Math.floor(Math.random()*colors.length)],
+      rot: Math.random()*360,
+      vx: (Math.random()-0.5)*4,
+      vy: 2+Math.random()*4,
+      vr: (Math.random()-0.5)*6,
+      alpha: 1
+    });
+  }
+  var frame;
+  function tick() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var alive = false;
+    pieces.forEach(function(p) {
+      p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
+      if (p.y > canvas.height*0.6) p.alpha -= 0.025;
+      if (p.alpha > 0) alive = true;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0,p.alpha);
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    if (alive) frame = requestAnimationFrame(tick);
+    else { canvas.classList.remove('show'); ctx.clearRect(0,0,canvas.width,canvas.height); }
+  }
+  tick();
+  setTimeout(function() {
+    cancelAnimationFrame(frame);
+    canvas.classList.remove('show');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+  }, 3000);
+}
+
+function launchFireworks() {
+  var canvas = document.getElementById('fireworkCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var colors = ['#d4a843','#f0c060','#e74c3c','#ff6b35','#fff','#ffbe70'];
+  var bursts = [];
+  for (var b = 0; b < 3; b++) {
+    var bx = canvas.width  * (0.2 + Math.random()*0.6);
+    var by = canvas.height * (0.1 + Math.random()*0.4);
+    var particles = [];
+    for (var i = 0; i < 40; i++) {
+      var angle = (Math.PI*2*i)/40;
+      var speed = 3 + Math.random()*5;
+      particles.push({x:bx,y:by,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,color:colors[Math.floor(Math.random()*colors.length)],alpha:1,size:2+Math.random()*3});
+    }
+    bursts.push({particles:particles,delay:b*200});
+  }
+  var start = null;
+  function tick(ts) {
+    if (!start) start = ts;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    var alive = false;
+    bursts.forEach(function(burst) {
+      if (ts-start < burst.delay) return;
+      burst.particles.forEach(function(p) {
+        p.x+=p.vx; p.y+=p.vy; p.vy+=0.12; p.vx*=0.98; p.alpha-=0.018;
+        if (p.alpha>0) {
+          alive=true;
+          ctx.save(); ctx.globalAlpha=p.alpha; ctx.fillStyle=p.color;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill(); ctx.restore();
+        }
+      });
+    });
+    if (alive) requestAnimationFrame(tick);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  requestAnimationFrame(tick);
+}
+
+function burnCard(callback) {
+  var front = document.getElementById('cardFront');
+  front.classList.add('burning');
+  var rect = front.getBoundingClientRect();
+  var colors = ['#ff4500','#ff8c00','#ffd700','#ff6b35'];
+  for (var i = 0; i < 20; i++) {
+    var spark = document.createElement('div');
+    spark.className = 'spark';
+    var angle = Math.random()*Math.PI*2;
+    var dist  = 60+Math.random()*120;
+    spark.style.setProperty('--dx', Math.cos(angle)*dist+'px');
+    spark.style.setProperty('--dy', Math.sin(angle)*dist-80+'px');
+    spark.style.setProperty('--dur', (0.4+Math.random()*0.6)+'s');
+    spark.style.left = (rect.left+rect.width/2+(Math.random()-0.5)*60)+'px';
+    spark.style.top  = (rect.top+rect.height/2+(Math.random()-0.5)*40)+'px';
+    spark.style.background = colors[Math.floor(Math.random()*colors.length)];
+    document.body.appendChild(spark);
+    setTimeout(function() { spark.remove(); }, 1000);
+  }
+  setTimeout(function() {
+    front.classList.remove('burning');
+    if (callback) callback();
+  }, 900);
+}
+
+
 function triggerFlash() {
-  const flash = document.getElementById('flashOverlay');
-  flash.classList.remove('active');
-  void flash.offsetWidth;
-  flash.classList.add('active');
-  setTimeout(() => flash.classList.remove('active'), 800);
+  const f=document.getElementById('flashOverlay');
+  f.classList.remove('active');
+  void f.offsetWidth;
+  f.classList.add('active');
+  setTimeout(()=>f.classList.remove('active'),900);
 }
 
 function next() {
   if (checkEndGame()) return;
+  currentPlayer = currentPlayer===p1Name ? p2Name : p1Name;
+  const tn = document.getElementById('turnName');
+  tn.classList.remove('animate');
+  void tn.offsetWidth;
+  tn.textContent = currentPlayer;
+  tn.classList.add('animate');
+  updateAvatar();
+  clearInterval(timerInterval);
+  document.getElementById('timerWrap').classList.remove('show');
 
-  currentPlayer = currentPlayer === p1Name ? p2Name : p1Name;
-  document.getElementById('turnName').textContent = currentPlayer;
+  const flipper=document.getElementById('cardFlipper'), front=document.getElementById('cardFront');
+  flipper.style.transition='none';
+  flipper.classList.remove('flipped','nf-shake');
+  front.classList.remove('nf-glow');
+  document.getElementById('cardScene').style.display='none';
+  document.getElementById('cardPlaceholder').style.display='flex';
+  setTimeout(()=>{ flipper.style.transition=''; }, 50);
 
-  // הסתר מיד — בלי אנימציית חזרה
-  const flipper = document.getElementById('cardFlipper');
-  const front   = document.getElementById('cardFront');
-  const scene   = document.getElementById('cardScene');
-
-  // כבה transition זמנית כדי שלא יראו את ההפיכה חזרה
-  flipper.style.transition = 'none';
-  flipper.classList.remove('flipped', 'no-filter-reveal');
-  front.classList.remove('no-filter-glow');
-
-  scene.style.display = 'none';
-  document.getElementById('cardPlaceholder').style.display = 'flex';
-
-  // החזר transition לפעם הבאה
-  setTimeout(() => {
-    flipper.style.transition = '';
-  }, 50);
-
-  document.getElementById('choiceActions').style.display = 'flex';
-  document.getElementById('nextAction').style.display = 'none';
-
-  updateButtonState();
+  if (randomMode) {
+    // במצב אקראי — כפתור "הבא" שולף קלף רנדומלי
+    document.getElementById('choiceActions').style.display = 'none';
+    document.getElementById('nextAction').style.display = 'flex';
+    const avail = [];
+    if (decks.conversation.length > 0) avail.push('conversation');
+    if (decks.challenge.length > 0)    avail.push('challenge');
+    if (avail.length > 0) {
+      const type = avail[Math.floor(Math.random() * avail.length)];
+      draw(type);
+    }
+  } else {
+    document.getElementById('choiceActions').style.display='flex';
+    document.getElementById('nextAction').style.display='none';
+    updateButtonState();
+  }
 }
 
 function checkEndGame() {
-  if (
-    decks.conversation.length === 0 &&
-    decks.challenge.length === 0 &&
-    decks.noFilter.length === 0
-  ) {
+  if (decks.conversation.length===0 && decks.challenge.length===0 && decks.noFilter.length===0) {
     showScreen('endScreen');
     return true;
   }
@@ -1111,20 +2100,17 @@ function checkEndGame() {
 }
 
 function restartGame() {
-  document.getElementById('p1').value = '';
-  document.getElementById('p2').value = '';
-
-  const btnC  = document.getElementById('btnConversation');
-  const btnCh = document.getElementById('btnChallenge');
-  btnC.textContent  = '💬 קלף שיחה';
-  btnC.className    = 'btn btn-secondary';
-  btnC.onclick      = () => draw('conversation');
-  btnCh.textContent = '⚡ קלף משימה';
-  btnCh.className   = 'btn btn-primary';
-  btnCh.onclick     = () => draw('challenge');
-
+  document.getElementById('p1').value='';
+  document.getElementById('p2').value='';
+  randomMode = false;
+  const bC=document.getElementById('btnConversation'), bCh=document.getElementById('btnChallenge');
+  bC.textContent='💬 קלף שיחה'; bC.className='btn btn-secondary'; bC.onclick=()=>draw('conversation');
+  bCh.textContent='⚡ קלף משימה'; bCh.className='btn btn-primary'; bCh.onclick=()=>draw('challenge');
   showScreen('welcomeScreen');
 }
+
+// Init
+initApp();
 </script>
 </body>
 </html>
