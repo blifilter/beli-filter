@@ -2691,61 +2691,74 @@ function adjustLayout() {
   var vh = window.innerHeight;
   var vw = window.innerWidth;
 
-  // scroll to top always so nothing is cut off
   window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
 
-  // reduce padding on small screens
-  var app = document.querySelector('.app');
-  if (app) {
-    app.style.paddingTop    = (vh < 700 ? '10px' : '20px');
-    app.style.paddingBottom = (vh < 700 ? '16px' : '28px');
+  // ── מחשב גובה זמין ──
+  // מודד בפועל את כל רכיבי ה-UI ומחסיר מהגובה הכולל
+  function getHeight(sel) {
+    var el = document.querySelector(sel);
+    if (!el || el.style.display === 'none') return 0;
+    return el.getBoundingClientRect().height + parseInt(getComputedStyle(el).marginBottom || 0);
   }
 
-  // card height = total height minus all UI elements
-  var topBar   = vh < 700 ? 90  : 110; // avatar + turn name + heat
-  var pills    = 40;
-  var buttons  = vh < 700 ? 100 : 130;
-  var padding  = vh < 700 ? 50  : 70;
-  var uiTotal  = topBar + pills + buttons + padding;
-  var cardH    = Math.max(150, Math.min(400, vh - uiTotal));
+  var appPadTop    = 14;
+  var appPadBottom = 20;
+  var progressH    = getHeight('.progress-wrap');
+  var turnH        = getHeight('.turn-bar');
+  var heatH        = getHeight('.heat-wrap');
+  var pillsH       = getHeight('.deck-status');
+  var timerH       = getHeight('.timer-wrap');
+  var actionsH     = 0;
 
-  var scenes = document.querySelectorAll('.card-scene, .card-placeholder');
-  scenes.forEach(function(el) {
+  // buttons height (whichever is visible)
+  var choiceEl = document.getElementById('choiceActions');
+  var nextEl   = document.getElementById('nextAction');
+  if (choiceEl && choiceEl.style.display !== 'none') actionsH = choiceEl.getBoundingClientRect().height + 8;
+  else if (nextEl && nextEl.style.display !== 'none') actionsH = nextEl.getBoundingClientRect().height + 8;
+  else actionsH = 120; // estimate when hidden
+
+  var cardMargin = 16;
+  var usedHeight = appPadTop + appPadBottom + progressH + turnH + heatH + pillsH + timerH + actionsH + cardMargin;
+  var cardH = Math.max(160, Math.min(420, vh - usedHeight));
+
+  // Apply card height
+  document.querySelectorAll('.card-scene, .card-placeholder').forEach(function(el) {
     el.style.height = cardH + 'px';
   });
 
-  // card text font size
-  var fontSize = Math.max(12, Math.min(19, cardH / 18));
+  // Card text font
+  var fontSize = Math.max(13, Math.min(20, cardH / 17));
   var cardText = document.getElementById('cardText');
   if (cardText) cardText.style.fontSize = fontSize + 'px';
 
-  // logo size
-  var logoTitle = document.getElementById('logoTitle');
-  if (logoTitle) {
-    var logoSize = Math.max(38, Math.min(90, vw * 0.2));
-    logoTitle.style.fontSize = logoSize + 'px';
+  // App padding
+  var app = document.querySelector('.app');
+  if (app) {
+    app.style.paddingTop    = appPadTop + 'px';
+    app.style.paddingBottom = appPadBottom + 'px';
   }
 
-  // button size
-  var btnPad  = vh < 700 ? '12px 16px' : '16px 20px';
-  var btnFont = vh < 700 ? '14px' : '16px';
-  document.querySelectorAll('.btn').forEach(function(b) {
-    if (!b.classList.contains('timer-start-btn')) {
-      b.style.padding  = btnPad;
-      b.style.fontSize = btnFont;
-    }
-  });
+  // Logo
+  var logoTitle = document.getElementById('logoTitle');
+  if (logoTitle) {
+    logoTitle.style.fontSize = Math.max(40, Math.min(88, vw * 0.2)) + 'px';
+  }
 
-  // heat bar + deck pills spacing
-  var heatWrap = document.querySelector('.heat-wrap');
-  if (heatWrap) heatWrap.style.marginBottom = (vh < 700 ? '6px' : '10px');
-
-  var deckStatus = document.querySelector('.deck-status');
-  if (deckStatus) deckStatus.style.marginBottom = (vh < 700 ? '6px' : '14px');
-
-  var turnBar = document.querySelector('.turn-bar');
-  if (turnBar) turnBar.style.marginBottom = (vh < 700 ? '6px' : '14px');
+  // Compact spacing on small screens
+  if (vh < 680) {
+    document.querySelectorAll('.btn:not(.timer-start-btn)').forEach(function(b) {
+      b.style.padding  = '11px 14px';
+      b.style.fontSize = '14px';
+    });
+    var hw = document.querySelector('.heat-wrap');
+    if (hw) hw.style.marginBottom = '4px';
+    var ds = document.querySelector('.deck-status');
+    if (ds) ds.style.marginBottom = '4px';
+    var tb = document.querySelector('.turn-bar');
+    if (tb) tb.style.marginBottom = '4px';
+    var pw = document.querySelector('.progress-wrap');
+    if (pw) pw.style.marginBottom = '6px';
+  }
 }
 
 window.addEventListener('resize', adjustLayout);
