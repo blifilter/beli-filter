@@ -1098,6 +1098,394 @@ body.ocean-mode .heat-bar-fill {
   filter: blur(0);
 }
 
+
+/* ── CARD BACKGROUNDS ── */
+
+/* Conversation - deep blue with stars */
+.card-front.type-conversation {
+  background: linear-gradient(160deg, #0a1628 0%, #122848 40%, #1a3a6a 70%, #0a1a38 100%) !important;
+}
+.card-front.type-conversation::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 20%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 10%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 55% 30%, rgba(255,255,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 25%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 45% 75%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 55%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 70%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 85%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(2px 2px at 90% 80%, rgba(180,220,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 90%, rgba(255,255,255,0.5) 0%, transparent 100%);
+  z-index: 0;
+  pointer-events: none;
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+@keyframes starTwinkle {
+  0%,100% { opacity: 0.7; }
+  50%     { opacity: 1; }
+}
+/* blue glow at top */
+.card-front.type-conversation .card-inner::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 60%;
+  background: radial-gradient(ellipse, rgba(50,130,255,0.25) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Challenge - red with diagonal lines */
+.card-front.type-challenge {
+  background: linear-gradient(160deg, #280000 0%, #520808 40%, #6e0f0f 70%, #300000 100%) !important;
+}
+.card-front.type-challenge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent 0px,
+    transparent 18px,
+    rgba(255,60,0,0.06) 18px,
+    rgba(255,60,0,0.06) 20px
+  );
+  z-index: 0;
+  pointer-events: none;
+  animation: diagonalSlide 8s linear infinite;
+}
+@keyframes diagonalSlide {
+  0%   { background-position: 0 0; }
+  100% { background-position: 40px 40px; }
+}
+/* red pulse glow */
+.card-front.type-challenge .card-inner::before {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  height: 50%;
+  background: radial-gradient(ellipse, rgba(200,0,0,0.3) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: redPulse 2s ease-in-out infinite;
+}
+@keyframes redPulse {
+  0%,100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+  50%     { opacity: 1; transform: translateX(-50%) scale(1.1); }
+}
+
+/* No Filter - gold/fire */
+.card-front.type-noFilter {
+  background: linear-gradient(160deg, #281000 0%, #522000 35%, #7a3000 60%, #3d1500 100%) !important;
+}
+.card-front.type-noFilter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 40% at 50% 100%, rgba(255,120,0,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 20% 80%, rgba(255,80,0,0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 75%, rgba(255,60,0,0.2) 0%, transparent 60%);
+  z-index: 0;
+  pointer-events: none;
+  animation: firePulse 2.5s ease-in-out infinite;
+}
+@keyframes firePulse {
+  0%,100% { opacity: 0.7; }
+  50%     { opacity: 1; }
+}
+/* gold shimmer top */
+.card-front.type-noFilter .card-inner::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 50%;
+  background: radial-gradient(ellipse, rgba(212,168,67,0.2) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Make card-inner children stack above the bg effects */
+.card-front .card-inner {
+  z-index: 2;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+}
+.card-front .card-badge { z-index: 3; }
+
+
+/* ── NATURE MODE CARDS ── */
+
+/* שיחה - ירוק בהיר/ליים */
+body.nature-mode .card-front.type-conversation {
+  background: linear-gradient(160deg, #052210 0%, #0a4020 40%, #0f5a2a 70%, #063018 100%) !important;
+  box-shadow: 0 0 40px rgba(0,220,80,0.3), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.nature-mode .card-front.type-conversation::after {
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 20%, rgba(120,255,100,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 10%, rgba(180,255,120,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 65% 30%, rgba(100,255,80,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 15%, rgba(150,255,100,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 70%, rgba(180,255,120,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 80%, rgba(120,255,80,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 85% 65%, rgba(100,220,60,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 50%, rgba(150,255,100,0.5) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 70% 50%, rgba(180,255,120,0.6) 0%, transparent 100%);
+  animation: starTwinkle 3s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.nature-mode .card-front.type-conversation .card-inner::before {
+  background: radial-gradient(ellipse, rgba(0,220,80,0.3) 0%, transparent 70%);
+}
+
+/* משימה - ירוק כהה/יער */
+body.nature-mode .card-front.type-challenge {
+  background: linear-gradient(160deg, #021508 0%, #052d10 40%, #083d15 70%, #031a0a 100%) !important;
+  box-shadow: 0 0 40px rgba(255,140,0,0.25), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.nature-mode .card-front.type-challenge::after {
+  background-image:
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 18px, rgba(0,180,60,0.12) 18px, rgba(0,180,60,0.12) 20px),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(100,200,0,0.25) 0%, transparent 70%);
+  animation: diagonalSlide 8s linear infinite;
+  z-index: 0; pointer-events: none;
+}
+body.nature-mode .card-front.type-challenge .card-inner::before {
+  background: radial-gradient(ellipse, rgba(80,200,0,0.35) 0%, transparent 70%);
+  animation: greenPulse 2s ease-in-out infinite;
+}
+
+/* בלי פילטר - ירוק-זהב */
+body.nature-mode .card-front.type-noFilter {
+  background: linear-gradient(160deg, #101a02 0%, #243d05 35%, #324f08 60%, #182800 100%) !important;
+  box-shadow: 0 0 50px rgba(150,220,0,0.4), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.nature-mode .card-front.type-noFilter::after {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(120,220,0,0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 20% 80%, rgba(80,180,0,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 75%, rgba(100,200,0,0.25) 0%, transparent 60%);
+  animation: greenFirePulse 2.5s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.nature-mode .card-front.type-noFilter .card-inner::before {
+  background: radial-gradient(ellipse, rgba(160,220,0,0.25) 0%, transparent 70%);
+}
+
+/* ── OCEAN MODE CARDS ── */
+
+/* שיחה - כחול בהיר/שמים */
+body.ocean-mode .card-front.type-conversation {
+  background: linear-gradient(160deg, #020d28 0%, #071d52 40%, #0c2870 70%, #041038 100%) !important;
+  box-shadow: 0 0 40px rgba(0,180,255,0.35), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.ocean-mode .card-front.type-conversation::after {
+  background-image:
+    radial-gradient(1.5px 1.5px at 15% 20%, rgba(100,210,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 10%, rgba(150,230,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 65% 30%, rgba(80,200,255,0.9) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 15%, rgba(120,220,255,0.6) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 25% 70%, rgba(150,230,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 80%, rgba(100,210,255,0.8) 0%, transparent 100%),
+    radial-gradient(2px 2px at 85% 65%, rgba(80,180,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 50%, rgba(120,220,255,0.5) 0%, transparent 100%);
+  animation: starTwinkle 3s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.ocean-mode .card-front.type-conversation .card-inner::before {
+  background: radial-gradient(ellipse, rgba(0,180,255,0.3) 0%, transparent 70%);
+}
+
+/* משימה - כחול כהה/עומק ים */
+body.ocean-mode .card-front.type-challenge {
+  background: linear-gradient(160deg, #010810 0%, #031525 40%, #051e38 70%, #020d1f 100%) !important;
+  box-shadow: 0 0 40px rgba(0,80,200,0.4), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.ocean-mode .card-front.type-challenge::after {
+  background-image:
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 18px, rgba(0,100,255,0.1) 18px, rgba(0,100,255,0.1) 20px),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(0,80,200,0.3) 0%, transparent 70%);
+  animation: diagonalSlide 8s linear infinite;
+  z-index: 0; pointer-events: none;
+}
+body.ocean-mode .card-front.type-challenge .card-inner::before {
+  background: radial-gradient(ellipse, rgba(0,80,220,0.4) 0%, transparent 70%);
+  animation: bluePulse 2s ease-in-out infinite;
+}
+
+/* בלי פילטר - טורקיז/ציאן */
+body.ocean-mode .card-front.type-noFilter {
+  background: linear-gradient(160deg, #00131a 0%, #002535 35%, #003348 60%, #001520 100%) !important;
+  box-shadow: 0 0 50px rgba(0,200,220,0.45), 0 12px 40px rgba(0,0,0,0.6) !important;
+}
+body.ocean-mode .card-front.type-noFilter::after {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,200,220,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 20% 80%, rgba(0,150,180,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 80% 75%, rgba(0,180,200,0.25) 0%, transparent 60%);
+  animation: oceanFirePulse 2.5s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.ocean-mode .card-front.type-noFilter .card-inner::before {
+  background: radial-gradient(ellipse, rgba(0,200,230,0.25) 0%, transparent 70%);
+}
+
+
+/* ── SPACE MODE ── */
+body.space-mode {
+  background: #000008 !important;
+}
+
+body.space-mode::before {
+  background:
+    radial-gradient(ellipse 60% 50% at 30% 40%, rgba(80,0,180,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 75% 60%, rgba(0,40,160,0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 80%, rgba(120,0,100,0.3) 0%, transparent 50%);
+  transition: all 1.5s ease;
+}
+
+/* Galaxy nebula */
+body.space-mode::after {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 1;
+  transition: all 1.5s ease;
+}
+
+/* Orbiting orbs */
+body.space-mode .bg-orb1 {
+  background: radial-gradient(circle, rgba(120,0,255,0.5) 0%, rgba(60,0,180,0.2) 50%, transparent 70%) !important;
+  animation: spaceOrb1 8s ease-in-out infinite !important;
+}
+body.space-mode .bg-orb2 {
+  background: radial-gradient(circle, rgba(0,80,255,0.4) 0%, rgba(0,40,180,0.15) 50%, transparent 70%) !important;
+  animation: spaceOrb2 10s ease-in-out infinite !important;
+}
+@keyframes spaceOrb1 {
+  0%,100% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 0.6; }
+  33%     { transform: translateX(-40%) scale(1.15) rotate(120deg); opacity: 0.9; }
+  66%     { transform: translateX(-60%) scale(0.9) rotate(240deg); opacity: 0.5; }
+}
+@keyframes spaceOrb2 {
+  0%,100% { transform: scale(1) rotate(0deg); opacity: 0.5; }
+  50%     { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+}
+
+/* App pulse */
+body.space-mode .app {
+  animation: spacePulse 4s ease-in-out infinite;
+}
+@keyframes spacePulse {
+  0%,100% { box-shadow: 0 0 0px rgba(120,0,255,0); }
+  50%     { box-shadow: 0 0 60px rgba(120,0,255,0.2), inset 0 0 30px rgba(120,0,255,0.05); }
+}
+
+/* Heat bar color */
+body.space-mode .heat-bar-fill {
+  background: linear-gradient(90deg, #4a0080, #8000ff, #c060ff) !important;
+  box-shadow: 0 0 8px rgba(150,0,255,0.7) !important;
+}
+
+/* Stars canvas for space mode */
+#space-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+body.space-mode #space-stars { opacity: 1; }
+
+/* ── SPACE CARDS ── */
+
+/* שיחה - סגול/נבולה */
+body.space-mode .card-front.type-conversation {
+  background: linear-gradient(160deg, #080015 0%, #120030 40%, #1a0045 70%, #0a0020 100%) !important;
+  box-shadow: 0 0 50px rgba(120,0,255,0.45), 0 12px 40px rgba(0,0,0,0.7) !important;
+}
+body.space-mode .card-front.type-conversation::after {
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%, rgba(200,150,255,0.95) 0%, transparent 100%),
+    radial-gradient(1px 1px at 30% 8%,  rgba(255,200,255,0.8)  0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 20%, rgba(180,120,255,0.95) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 12%, rgba(220,170,255,0.7)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 88% 30%, rgba(200,150,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 20% 55%, rgba(255,200,255,0.6)  0%, transparent 100%),
+    radial-gradient(2px 2px at 45% 70%, rgba(180,120,255,0.8)  0%, transparent 100%),
+    radial-gradient(1px 1px at 68% 60%, rgba(220,170,255,0.7)  0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 82% 75%, rgba(200,150,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 5%  80%, rgba(255,200,255,0.5)  0%, transparent 100%),
+    radial-gradient(2px 2px at 35% 88%, rgba(180,120,255,0.7)  0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 85%, rgba(220,170,255,0.6)  0%, transparent 100%);
+  animation: starTwinkle 2s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.space-mode .card-front.type-conversation .card-inner::before {
+  background: radial-gradient(ellipse, rgba(120,0,255,0.35) 0%, transparent 70%);
+}
+
+/* משימה - כחול-חלל/כוכב נייטרון */
+body.space-mode .card-front.type-challenge {
+  background: linear-gradient(160deg, #000510 0%, #000d25 40%, #001040 70%, #000818 100%) !important;
+  box-shadow: 0 0 50px rgba(0,80,255,0.4), 0 12px 40px rgba(0,0,0,0.7) !important;
+}
+body.space-mode .card-front.type-challenge::after {
+  background-image:
+    repeating-linear-gradient(-45deg, transparent 0px, transparent 20px, rgba(0,100,255,0.08) 20px, rgba(0,100,255,0.08) 22px),
+    radial-gradient(ellipse 70% 50% at 50% 100%, rgba(0,80,200,0.35) 0%, transparent 70%),
+    radial-gradient(1px 1px at 25% 30%, rgba(100,180,255,0.8) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 60% 20%, rgba(150,200,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 50%, rgba(100,180,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 15% 70%, rgba(120,200,255,0.8) 0%, transparent 100%);
+  animation: diagonalSlide 10s linear infinite;
+  z-index: 0; pointer-events: none;
+}
+body.space-mode .card-front.type-challenge .card-inner::before {
+  background: radial-gradient(ellipse, rgba(0,60,220,0.4) 0%, transparent 70%);
+  animation: bluePulse 2s ease-in-out infinite;
+}
+
+/* בלי פילטר - ורוד/גלקסיה */
+body.space-mode .card-front.type-noFilter {
+  background: linear-gradient(160deg, #12000a 0%, #280015 35%, #380020 60%, #1a000e 100%) !important;
+  box-shadow: 0 0 60px rgba(255,0,150,0.5), 0 12px 40px rgba(0,0,0,0.7) !important;
+}
+body.space-mode .card-front.type-noFilter::after {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(255,0,150,0.45) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 35% at 15% 80%, rgba(200,0,120,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 85% 70%, rgba(180,0,100,0.3) 0%, transparent 60%),
+    radial-gradient(1.5px 1.5px at 30% 25%, rgba(255,150,200,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 65% 15%, rgba(255,100,180,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 50% 45%, rgba(255,180,220,0.6) 0%, transparent 100%);
+  animation: firePulse 2.5s ease-in-out infinite;
+  z-index: 0; pointer-events: none;
+}
+body.space-mode .card-front.type-noFilter .card-inner::before {
+  background: radial-gradient(ellipse, rgba(255,0,150,0.3) 0%, transparent 70%);
+}
+
 </style>
 </head>
 
@@ -1262,6 +1650,7 @@ body.ocean-mode .heat-bar-fill {
 <div class="flash-overlay" id="flashOverlay"></div>
 <canvas id="confetti-canvas"></canvas>
 <div class="mode-flash" id="modeFlash"></div>
+<canvas id="space-stars"></canvas>
 <canvas class="firework-canvas" id="fireworkCanvas"></canvas>
 
 <script>
@@ -1444,9 +1833,10 @@ let modeIndex = 0; // 0=fire, 1=nature, 2=ocean
 const EMOJIS = ['😎','😍','🥰','🔥','😈','👑','🌹','💎','🐯','🦋','⚡','🌙'];
 
 const MODES = [
-  { name: 'fire',   icon: '🔥', bodyClass: 'fire-mode',   flashColor: 'rgba(255,80,0,0.4)',   heatColor: null },
-  { name: 'nature', icon: '🌿', bodyClass: 'nature-mode', flashColor: 'rgba(0,180,60,0.4)',   heatColor: null },
-  { name: 'ocean',  icon: '🌊', bodyClass: 'ocean-mode',  flashColor: 'rgba(0,120,255,0.4)',  heatColor: null },
+  { name: 'fire',   icon: '🔥', bodyClass: 'fire-mode',   flashColor: 'rgba(255,80,0,0.4)'  },
+  { name: 'nature', icon: '🌿', bodyClass: 'nature-mode', flashColor: 'rgba(0,180,60,0.4)'  },
+  { name: 'ocean',  icon: '🌊', bodyClass: 'ocean-mode',  flashColor: 'rgba(0,120,255,0.4)' },
+  { name: 'space',  icon: '🌌', bodyClass: 'space-mode',  flashColor: 'rgba(120,0,255,0.4)' },
 ];
 
 /* ── UTILS ── */
@@ -1460,10 +1850,14 @@ function shuffle(arr) {
 }
 
 function buildNoFilterSchedule(total, count) {
-  const schedule = [], chunk = Math.floor(total/count);
-  for (let i = 0; i < count; i++) {
-    const s = i*chunk + Math.floor(chunk*0.25);
-    const e = i*chunk + Math.floor(chunk*0.85);
+  var schedule = [];
+  // חלק את המשחק לאחרי 25% הראשונים
+  var startAfter = Math.floor(total * 0.25);
+  var remaining  = total - startAfter;
+  var chunk = Math.floor(remaining / count);
+  for (var i = 0; i < count; i++) {
+    var s = startAfter + i*chunk + Math.floor(chunk*0.1);
+    var e = startAfter + i*chunk + Math.floor(chunk*0.9);
     schedule.push(s + Math.floor(Math.random()*(e-s+1)));
   }
   return schedule;
@@ -1476,6 +1870,93 @@ function showScreen(id) {
   void el.offsetWidth;
   el.classList.add('active');
   window.scrollTo(0,0);
+}
+
+function initSpaceStars() {
+  var canvas = document.getElementById('space-stars');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  var stars = [];
+  for (var i = 0; i < 200; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.8,
+      alpha: Math.random(),
+      speed: 0.003 + Math.random() * 0.008,
+      color: ['#ffffff','#ffe0ff','#c0a0ff','#80b0ff','#ffb0d0'][Math.floor(Math.random()*5)]
+    });
+  }
+
+  var shootingStars = [];
+  function addShootingStar() {
+    shootingStars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height * 0.5,
+      len: 80 + Math.random() * 120,
+      speed: 8 + Math.random() * 6,
+      alpha: 1,
+      angle: Math.PI / 4
+    });
+  }
+  setInterval(addShootingStar, 2500);
+
+  var animFrame;
+  function drawStars() {
+    if (!document.body.classList.contains('space-mode')) {
+      cancelAnimationFrame(animFrame);
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      return;
+    }
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // draw stars
+    stars.forEach(function(s) {
+      s.alpha += s.speed;
+      if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, Math.min(1, s.alpha));
+      ctx.fillStyle = s.color;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    // draw shooting stars
+    shootingStars = shootingStars.filter(function(ss) {
+      ss.x += Math.cos(ss.angle) * ss.speed;
+      ss.y += Math.sin(ss.angle) * ss.speed;
+      ss.alpha -= 0.025;
+      if (ss.alpha <= 0) return false;
+      ctx.save();
+      ctx.globalAlpha = ss.alpha;
+      var grad = ctx.createLinearGradient(ss.x, ss.y, ss.x - Math.cos(ss.angle)*ss.len, ss.y - Math.sin(ss.angle)*ss.len);
+      grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(ss.x, ss.y);
+      ctx.lineTo(ss.x - Math.cos(ss.angle)*ss.len, ss.y - Math.sin(ss.angle)*ss.len);
+      ctx.stroke();
+      ctx.restore();
+      return true;
+    });
+
+    animFrame = requestAnimationFrame(drawStars);
+  }
+  drawStars();
+}
+
+function clearSpaceStars() {
+  var canvas = document.getElementById('space-stars');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
 function initApp() {
@@ -1584,6 +2065,10 @@ function cycleMode() {
   // remove all mode classes and apply new one IMMEDIATELY
   MODES.forEach(m => document.body.classList.remove(m.bodyClass));
   document.body.classList.add(mode.bodyClass);
+
+  // space stars
+  if (mode.name === 'space') initSpaceStars();
+  else clearSpaceStars();
 
   // reset bar color immediately - handled by updateHeat
 
@@ -1752,11 +2237,22 @@ function shouldDrawNoFilter() {
 function draw(type) {
   // אם מצב אקראי — בחר בין conversation ו-challenge
   if (randomMode && type !== 'noFilter') {
-    const avail = [];
-    if (decks.conversation.length > 0) avail.push('conversation');
-    if (decks.challenge.length > 0)    avail.push('challenge');
-    if (avail.length === 0) return;
-    type = avail[Math.floor(Math.random() * avail.length)];
+    var convLeft = decks.conversation.length;
+    var chalLeft = decks.challenge.length;
+    var nofLeft  = decks.noFilter.length;
+    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) {
+      // רק בלי פילטר נשאר
+      type = 'noFilter';
+    } else if (convLeft === 0 && chalLeft === 0) {
+      return;
+    } else if (convLeft === 0) {
+      type = 'challenge';
+    } else if (chalLeft === 0) {
+      type = 'conversation';
+    } else {
+      var total = convLeft + chalLeft;
+      type = Math.random() < (convLeft / total) ? 'conversation' : 'challenge';
+    }
   }
 
   if (decks[type].length===0) return;
@@ -1785,9 +2281,15 @@ function draw(type) {
 }
 
 const BG = {
-  conversation: 'url(https://static.wixstatic.com/media/e123f8_1515f550ed95476eb8140ef9aa9e0383~mv2.png)',
-  challenge:    'url(https://static.wixstatic.com/media/e123f8_f7af3d0b4ce34f2780d767886bf88a68~mv2.png)',
-  noFilter:     'url(https://static.wixstatic.com/media/e123f8_ecd2ff2ce90545498eef6db34a01c719~mv2.png)'
+  conversation: '',
+  challenge:    '',
+  noFilter:     ''
+};
+
+const CARD_CLASSES = {
+  conversation: 'type-conversation',
+  challenge:    'type-challenge',
+  noFilter:     'type-noFilter'
 };
 
 // קביעת זמנים לפי טקסט הקלף
@@ -1866,7 +2368,9 @@ function renderCard(type, text) {
   streak.classList.remove('play');
   void flipper.offsetWidth;
 
-  front.style.backgroundImage = BG[type];
+  front.style.backgroundImage = '';
+  front.classList.remove('type-conversation','type-challenge','type-noFilter');
+  front.classList.add(CARD_CLASSES[type]);
   cardText.innerHTML = '';
   badge.style.display = type==='noFilter' ? 'block' : 'none';
   if (type==='noFilter') badge.textContent = '🔥 קלף בלי פילטר';
@@ -2074,14 +2578,18 @@ function next() {
   setTimeout(()=>{ flipper.style.transition=''; }, 50);
 
   if (randomMode) {
-    // במצב אקראי — כפתור "הבא" שולף קלף רנדומלי
     document.getElementById('choiceActions').style.display = 'none';
     document.getElementById('nextAction').style.display = 'flex';
-    const avail = [];
-    if (decks.conversation.length > 0) avail.push('conversation');
-    if (decks.challenge.length > 0)    avail.push('challenge');
-    if (avail.length > 0) {
-      const type = avail[Math.floor(Math.random() * avail.length)];
+    var convLeft = decks.conversation.length;
+    var chalLeft = decks.challenge.length;
+    var nofLeft  = decks.noFilter.length;
+    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) {
+      // נשארו רק בלי פילטר — שלוף אותם
+      draw('noFilter');
+    } else if (convLeft > 0 || chalLeft > 0) {
+      var total = convLeft + chalLeft;
+      var type = (chalLeft === 0 || (convLeft > 0 && Math.random() < convLeft/total))
+        ? 'conversation' : 'challenge';
       draw(type);
     }
   } else {
