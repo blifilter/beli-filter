@@ -1934,6 +1934,7 @@ function showScreen(id) {
   void el.offsetWidth;
   el.classList.add('active');
   window.scrollTo(0,0);
+  adjustLayout();
 }
 
 function initSpaceStars() {
@@ -2683,6 +2684,75 @@ function restartGame() {
 
 // Init
 initApp();
+adjustLayout();
+
+// ── RESPONSIVE HEIGHT ──
+function adjustLayout() {
+  var vh = window.innerHeight;
+  var vw = window.innerWidth;
+
+  // scroll to top always so nothing is cut off
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+
+  // reduce padding on small screens
+  var app = document.querySelector('.app');
+  if (app) {
+    app.style.paddingTop    = (vh < 700 ? '10px' : '20px');
+    app.style.paddingBottom = (vh < 700 ? '16px' : '28px');
+  }
+
+  // card height = total height minus all UI elements
+  var topBar   = vh < 700 ? 90  : 110; // avatar + turn name + heat
+  var pills    = 40;
+  var buttons  = vh < 700 ? 100 : 130;
+  var padding  = vh < 700 ? 50  : 70;
+  var uiTotal  = topBar + pills + buttons + padding;
+  var cardH    = Math.max(150, Math.min(400, vh - uiTotal));
+
+  var scenes = document.querySelectorAll('.card-scene, .card-placeholder');
+  scenes.forEach(function(el) {
+    el.style.height = cardH + 'px';
+  });
+
+  // card text font size
+  var fontSize = Math.max(12, Math.min(19, cardH / 18));
+  var cardText = document.getElementById('cardText');
+  if (cardText) cardText.style.fontSize = fontSize + 'px';
+
+  // logo size
+  var logoTitle = document.getElementById('logoTitle');
+  if (logoTitle) {
+    var logoSize = Math.max(38, Math.min(90, vw * 0.2));
+    logoTitle.style.fontSize = logoSize + 'px';
+  }
+
+  // button size
+  var btnPad  = vh < 700 ? '12px 16px' : '16px 20px';
+  var btnFont = vh < 700 ? '14px' : '16px';
+  document.querySelectorAll('.btn').forEach(function(b) {
+    if (!b.classList.contains('timer-start-btn')) {
+      b.style.padding  = btnPad;
+      b.style.fontSize = btnFont;
+    }
+  });
+
+  // heat bar + deck pills spacing
+  var heatWrap = document.querySelector('.heat-wrap');
+  if (heatWrap) heatWrap.style.marginBottom = (vh < 700 ? '6px' : '10px');
+
+  var deckStatus = document.querySelector('.deck-status');
+  if (deckStatus) deckStatus.style.marginBottom = (vh < 700 ? '6px' : '14px');
+
+  var turnBar = document.querySelector('.turn-bar');
+  if (turnBar) turnBar.style.marginBottom = (vh < 700 ? '6px' : '14px');
+}
+
+window.addEventListener('resize', adjustLayout);
+window.addEventListener('orientationchange', function() {
+  setTimeout(adjustLayout, 300);
+});
+
 </script>
 </body>
 </html>
