@@ -97,15 +97,7 @@ body::after {
 }
 
 /* ── SCREENS ── */
-.screen {
-  width: 100%;
-  max-width: 400px;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding-bottom: 24px;
-}
-.screen.active { display: flex; }
+/* screen rules in responsive section */
 
 /* ── WELCOME ── */
 #welcomeScreen {
@@ -1552,80 +1544,96 @@ body.space-mode .card-front.type-noFilter .card-inner::before {
 
 
 /* ── FULL SCREEN GRID LAYOUT ── */
+/* ── RESPONSIVE CORE ── */
+* { box-sizing: border-box; }
+
 html, body {
-  height: 100% !important;
-  overflow: hidden !important;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .app {
-  height: 100vh !important;
-  height: 100dvh !important;
-  min-height: unset !important;
-  padding: 0 !important;
-  align-items: stretch !important;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
 }
 
-#gameScreen {
-  height: 100vh !important;
-  height: 100dvh !important;
+/* ── ALL SCREENS ── */
+.screen {
+  width: 100%;
+  height: 100%;
+  max-width: 420px;
   display: none;
-  flex-direction: column !important;
-  padding: 10px 14px 14px !important;
-  gap: 0 !important;
-  overflow: hidden !important;
-  box-sizing: border-box !important;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
 }
-#gameScreen.active { display: flex !important; }
+.screen.active { display: flex; }
 
-/* Card takes all remaining space */
+/* ── GAME SCREEN ── */
+#gameScreen {
+  padding: clamp(6px,2%,14px) clamp(10px,4%,18px);
+  gap: 0;
+  overflow: hidden;
+}
+
+/* UI elements — fixed size */
+.progress-wrap  { flex: 0 0 auto; margin-bottom: clamp(3px,0.8%,8px); }
+.turn-bar       { flex: 0 0 auto; margin-bottom: clamp(3px,0.8%,8px); }
+.heat-wrap      { flex: 0 0 auto; margin-bottom: clamp(3px,0.8%,8px); }
+.deck-status    { flex: 0 0 auto; margin-bottom: clamp(3px,0.8%,8px); }
+.timer-wrap     { flex: 0 0 auto; }
+.actions        { flex: 0 0 auto; gap: clamp(6px,1.5%,10px); }
+
+/* Card — takes ALL remaining space */
 #gameScreen .card-placeholder,
 #gameScreen .card-scene {
-  flex: 1 1 0 !important;
+  flex: 1 1 0% !important;
   height: auto !important;
   min-height: 0 !important;
   max-height: none !important;
   width: 100% !important;
-  margin-bottom: 10px !important;
+  margin-bottom: clamp(6px,1.5%,12px) !important;
 }
 
-/* Fixed size UI elements */
-.progress-wrap  { flex-shrink: 0; margin-bottom: 6px !important; }
-.turn-bar       { flex-shrink: 0; margin-bottom: 6px !important; }
-.heat-wrap      { flex-shrink: 0; margin-bottom: 6px !important; }
-.deck-status    { flex-shrink: 0; margin-bottom: 6px !important; }
-.timer-wrap     { flex-shrink: 0; }
-.actions        { flex-shrink: 0; gap: 8px !important; }
+/* card flipper fills scene */
+.card-flipper { height: 100% !important; }
+.card-face    { height: 100% !important; }
 
-/* Other screens also full height */
+/* ── TEXT SCALES WITH CONTAINER ── */
+.turn-name     { font-size: clamp(18px, 5%, 30px); }
+.player-avatar { font-size: clamp(20px, 5%, 32px); margin-bottom: clamp(0px,0.5%,4px); }
+.deck-pill     { font-size: clamp(9px, 2.5%, 11px); padding: clamp(2px,0.5%,4px) clamp(6px,1.5%,10px); }
+.heat-label    { font-size: clamp(8px,2%,10px); }
+
+.btn:not(.timer-start-btn) {
+  padding: clamp(10px,2.5%,18px) clamp(12px,3%,24px);
+  font-size: clamp(13px,3.5%,17px);
+}
+
+.card-text {
+  font-size: clamp(12px, 3.5%, 20px) !important;
+}
+
+/* ── NON-GAME SCREENS ── */
 #welcomeScreen, #introScreen, #spotifyScreen, #setupScreen, #endScreen {
-  height: 100vh !important;
-  height: 100dvh !important;
-  overflow-y: auto !important;
-  padding: 20px 16px !important;
-  box-sizing: border-box !important;
-  justify-content: center !important;
+  overflow-y: auto;
+  padding: clamp(16px,4%,28px) clamp(12px,4%,20px);
+  justify-content: center;
 }
 
-/* Smaller text/padding on small screens */
-@media (max-height: 680px) {
-  .turn-name    { font-size: 20px !important; }
-  .player-avatar { font-size: 22px !important; margin-bottom: 0 !important; }
-  .deck-pill    { font-size: 10px !important; padding: 3px 8px !important; }
-  .heat-label   { font-size: 9px !important; }
-  .btn:not(.timer-start-btn) { padding: 11px 14px !important; font-size: 14px !important; }
-  .actions      { gap: 6px !important; }
-  .progress-wrap { margin-bottom: 3px !important; }
-  .turn-bar      { margin-bottom: 3px !important; }
-  .heat-wrap     { margin-bottom: 3px !important; }
-  .deck-status   { margin-bottom: 3px !important; }
-}
-
-@media (max-height: 580px) {
-  .heat-wrap    { display: none !important; }
+/* hide non-essentials when very short */
+@media (max-height: 560px) {
+  .heat-wrap     { display: none !important; }
   .player-avatar { display: none !important; }
-  .turn-label   { display: none !important; }
-  .turn-name    { font-size: 18px !important; }
-  .btn:not(.timer-start-btn) { padding: 9px 12px !important; font-size: 13px !important; }
+  .turn-label    { display: none !important; }
+  .progress-wrap { display: none !important; }
 }
 
 </style>
