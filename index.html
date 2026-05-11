@@ -1550,6 +1550,84 @@ body.space-mode .card-front.type-noFilter .card-inner::before {
   .logo-title { font-size: clamp(72px, 16vw, 100px) !important; }
 }
 
+
+/* ── FULL SCREEN GRID LAYOUT ── */
+html, body {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.app {
+  height: 100vh !important;
+  height: 100dvh !important;
+  min-height: unset !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+}
+
+#gameScreen {
+  height: 100vh !important;
+  height: 100dvh !important;
+  display: none;
+  flex-direction: column !important;
+  padding: 10px 14px 14px !important;
+  gap: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+#gameScreen.active { display: flex !important; }
+
+/* Card takes all remaining space */
+#gameScreen .card-placeholder,
+#gameScreen .card-scene {
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+
+/* Fixed size UI elements */
+.progress-wrap  { flex-shrink: 0; margin-bottom: 6px !important; }
+.turn-bar       { flex-shrink: 0; margin-bottom: 6px !important; }
+.heat-wrap      { flex-shrink: 0; margin-bottom: 6px !important; }
+.deck-status    { flex-shrink: 0; margin-bottom: 6px !important; }
+.timer-wrap     { flex-shrink: 0; }
+.actions        { flex-shrink: 0; gap: 8px !important; }
+
+/* Other screens also full height */
+#welcomeScreen, #introScreen, #spotifyScreen, #setupScreen, #endScreen {
+  height: 100vh !important;
+  height: 100dvh !important;
+  overflow-y: auto !important;
+  padding: 20px 16px !important;
+  box-sizing: border-box !important;
+  justify-content: center !important;
+}
+
+/* Smaller text/padding on small screens */
+@media (max-height: 680px) {
+  .turn-name    { font-size: 20px !important; }
+  .player-avatar { font-size: 22px !important; margin-bottom: 0 !important; }
+  .deck-pill    { font-size: 10px !important; padding: 3px 8px !important; }
+  .heat-label   { font-size: 9px !important; }
+  .btn:not(.timer-start-btn) { padding: 11px 14px !important; font-size: 14px !important; }
+  .actions      { gap: 6px !important; }
+  .progress-wrap { margin-bottom: 3px !important; }
+  .turn-bar      { margin-bottom: 3px !important; }
+  .heat-wrap     { margin-bottom: 3px !important; }
+  .deck-status   { margin-bottom: 3px !important; }
+}
+
+@media (max-height: 580px) {
+  .heat-wrap    { display: none !important; }
+  .player-avatar { display: none !important; }
+  .turn-label   { display: none !important; }
+  .turn-name    { font-size: 18px !important; }
+  .btn:not(.timer-start-btn) { padding: 9px 12px !important; font-size: 13px !important; }
+}
+
 </style>
 </head>
 
@@ -2688,81 +2766,23 @@ adjustLayout();
 
 // ── RESPONSIVE HEIGHT ──
 function adjustLayout() {
-  var vh = window.innerHeight;
-  var vw = window.innerWidth;
-
+  // CSS Grid handles layout now — just scroll to top
   window.scrollTo(0, 0);
-
-  // ── מחשב גובה זמין ──
-  // מודד בפועל את כל רכיבי ה-UI ומחסיר מהגובה הכולל
-  function getHeight(sel) {
-    var el = document.querySelector(sel);
-    if (!el || el.style.display === 'none') return 0;
-    return el.getBoundingClientRect().height + parseInt(getComputedStyle(el).marginBottom || 0);
-  }
-
-  var appPadTop    = 14;
-  var appPadBottom = 20;
-  var progressH    = getHeight('.progress-wrap');
-  var turnH        = getHeight('.turn-bar');
-  var heatH        = getHeight('.heat-wrap');
-  var pillsH       = getHeight('.deck-status');
-  var timerH       = getHeight('.timer-wrap');
-  var actionsH     = 0;
-
-  // buttons height (whichever is visible)
-  var choiceEl = document.getElementById('choiceActions');
-  var nextEl   = document.getElementById('nextAction');
-  if (choiceEl && choiceEl.style.display !== 'none') actionsH = choiceEl.getBoundingClientRect().height + 8;
-  else if (nextEl && nextEl.style.display !== 'none') actionsH = nextEl.getBoundingClientRect().height + 8;
-  else actionsH = 120; // estimate when hidden
-
-  var cardMargin = 16;
-  var usedHeight = appPadTop + appPadBottom + progressH + turnH + heatH + pillsH + timerH + actionsH + cardMargin;
-  var cardH = Math.max(160, Math.min(420, vh - usedHeight));
-
-  // Apply card height
-  document.querySelectorAll('.card-scene, .card-placeholder').forEach(function(el) {
-    el.style.height = cardH + 'px';
-  });
-
-  // Card text font
-  var fontSize = Math.max(13, Math.min(20, cardH / 17));
-  var cardText = document.getElementById('cardText');
-  if (cardText) cardText.style.fontSize = fontSize + 'px';
-
-  // App padding
-  var app = document.querySelector('.app');
-  if (app) {
-    app.style.paddingTop    = appPadTop + 'px';
-    app.style.paddingBottom = appPadBottom + 'px';
-  }
-
-  // Logo
-  var logoTitle = document.getElementById('logoTitle');
-  if (logoTitle) {
-    logoTitle.style.fontSize = Math.max(40, Math.min(88, vw * 0.2)) + 'px';
-  }
-
-  // Compact spacing on small screens
-  if (vh < 680) {
-    document.querySelectorAll('.btn:not(.timer-start-btn)').forEach(function(b) {
-      b.style.padding  = '11px 14px';
-      b.style.fontSize = '14px';
-    });
-    var hw = document.querySelector('.heat-wrap');
-    if (hw) hw.style.marginBottom = '4px';
-    var ds = document.querySelector('.deck-status');
-    if (ds) ds.style.marginBottom = '4px';
-    var tb = document.querySelector('.turn-bar');
-    if (tb) tb.style.marginBottom = '4px';
-    var pw = document.querySelector('.progress-wrap');
-    if (pw) pw.style.marginBottom = '6px';
-  }
+  // adjust card text font based on card actual height
+  setTimeout(function() {
+    var scene = document.getElementById('cardScene');
+    if (scene) {
+      var h = scene.getBoundingClientRect().height;
+      var cardText = document.getElementById('cardText');
+      if (cardText && h > 0) {
+        cardText.style.fontSize = Math.max(12, Math.min(20, h / 16)) + 'px';
+      }
+    }
+  }, 50);
 }
 
 window.addEventListener('resize', adjustLayout);
-window.addEventListener('orientationchange', function() {
+window.addEventListener('orientationchange', function() { setTimeout(adjustLayout, 300); });window.addEventListener('orientationchange', function() {
   setTimeout(adjustLayout, 300);
 });
 
