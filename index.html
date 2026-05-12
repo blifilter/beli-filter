@@ -507,6 +507,32 @@ body::after {
 .card-flipper.nf-shake { animation: nfShake 0.5s ease 0.62s both; }
 .card-front.nf-glow    { animation: nfGlow 1s ease 0.58s both; }
 
+/* ── FULLSCREEN BTN ── */
+.fullscreen-btn {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.6);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: all 0.2s;
+}
+.fullscreen-btn:hover {
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border-color: rgba(255,255,255,0.35);
+}
+
 .flash-overlay {
   position: fixed; inset: 0;
   background: radial-gradient(ellipse at center, rgba(230,126,34,0.55), rgba(180,60,0,0.25));
@@ -1682,6 +1708,7 @@ html, body {
 
 </div>
 
+<button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="מסך מלא">⛶</button>
 <div class="flash-overlay" id="flashOverlay"></div>
 <canvas id="confetti-canvas"></canvas>
 <div class="mode-flash" id="modeFlash"></div>
@@ -2542,6 +2569,29 @@ function adjustLayout() {
 }
 
 window.addEventListener('resize', adjustLayout);
+
+function toggleFullscreen() {
+  var btn = document.getElementById('fullscreenBtn');
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    var el = document.documentElement;
+    if (el.requestFullscreen) el.requestFullscreen();
+    else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    btn.textContent = '⛶';
+    btn.style.opacity = '0.3';
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    btn.textContent = '⛶';
+    btn.style.opacity = '1';
+  }
+}
+
+document.addEventListener('fullscreenchange', function() {
+  var btn = document.getElementById('fullscreenBtn');
+  if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+    btn.style.opacity = '1';
+  }
+});
 window.addEventListener('orientationchange', function() { setTimeout(adjustLayout, 300); });
 </script>
 </body>
