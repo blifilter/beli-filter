@@ -683,8 +683,8 @@ body::after {
 
 .timer-ring-wrap {
   position: relative;
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
 }
 .timer-ring-wrap svg {
   transform: rotate(-90deg);
@@ -697,18 +697,64 @@ body::after {
   stroke-linecap: round;
   stroke-dasharray: 188.4;
   stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1s linear, stroke 0.5s;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s;
+  filter: none;
 }
-.timer-fg.urgent { stroke: var(--red-bright); }
+
+/* ── FIRE TIMER ── */
+@keyframes fireStroke {
+  0%   { stroke: #ff4500; filter: drop-shadow(0 0 4px #ff4500) drop-shadow(0 0 8px #ff6000); }
+  25%  { stroke: #ff8c00; filter: drop-shadow(0 0 6px #ff8c00) drop-shadow(0 0 14px #ff4500); }
+  50%  { stroke: #ffcc00; filter: drop-shadow(0 0 8px #ffcc00) drop-shadow(0 0 18px #ff6000); }
+  75%  { stroke: #ff6000; filter: drop-shadow(0 0 6px #ff6000) drop-shadow(0 0 12px #ff2000); }
+  100% { stroke: #ff4500; filter: drop-shadow(0 0 4px #ff4500) drop-shadow(0 0 8px #ff6000); }
+}
+
+@keyframes fireNumPulse {
+  0%,100% { transform: scale(1);    color: #ffcc00; text-shadow: 0 0 8px #ff6000, 0 0 20px #ff4500; }
+  50%     { transform: scale(1.15); color: #ffffff; text-shadow: 0 0 14px #ffcc00, 0 0 30px #ff6000; }
+}
+
+@keyframes fireWrap {
+  0%,100% { filter: drop-shadow(0 0 6px rgba(255,80,0,0.7)); }
+  50%     { filter: drop-shadow(0 0 14px rgba(255,160,0,0.9)); }
+}
+
+.timer-fg.on-fire {
+  animation: fireStroke 0.6s ease-in-out infinite;
+  stroke-width: 6;
+}
+
+.timer-ring-wrap.on-fire {
+  animation: fireWrap 0.6s ease-in-out infinite;
+}
+
 .timer-num {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 900;
   color: white;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.timer-num.on-fire {
+  animation: fireNumPulse 0.6s ease-in-out infinite;
+}
+
+/* fire emoji particles */
+.fire-particle {
+  position: absolute;
+  font-size: 14px;
+  pointer-events: none;
+  z-index: 10;
+  animation: fireParticleFloat var(--dur) ease-out forwards;
+}
+@keyframes fireParticleFloat {
+  0%   { opacity: 1; transform: translate(var(--sx), var(--sy)) scale(1); }
+  100% { opacity: 0; transform: translate(var(--ex), var(--ey)) scale(0.3); }
 }
 
 .timer-start-btn {
@@ -1683,10 +1729,10 @@ html, body {
       <span class="deck-pill orange">🔥 <span id="countFilt">0</span></span>
     </div>
     <div class="timer-wrap" id="timerWrap">
-      <div class="timer-ring-wrap">
-        <svg viewBox="0 0 70 70" width="70" height="70">
-          <circle class="timer-bg" cx="35" cy="35" r="30"/>
-          <circle class="timer-fg" id="timerRing" cx="35" cy="35" r="30"/>
+      <div class="timer-ring-wrap" id="timerRingWrap">
+        <svg viewBox="0 0 80 80" width="80" height="80">
+          <circle class="timer-bg" cx="40" cy="40" r="30"/>
+          <circle class="timer-fg" id="timerRing" cx="40" cy="40" r="30"/>
         </svg>
         <div class="timer-num" id="timerNum">--</div>
       </div>
@@ -2360,23 +2406,74 @@ function setupTimer(secs) {
   }
 }
 
+var fireParticleTimer = null;
+
+function spawnFireParticle(wrap) {
+  var emojis = ['🔥','🔥','✨','💥','🌟'];
+  var p = document.createElement('div');
+  p.className = 'fire-particle';
+  p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+  var angle = Math.random() * Math.PI * 2;
+  var dist = 30 + Math.random() * 25;
+  p.style.setProperty('--sx', '35px');
+  p.style.setProperty('--sy', '35px');
+  p.style.setProperty('--ex', (35 + Math.cos(angle) * dist) + 'px');
+  p.style.setProperty('--ey', (35 + Math.sin(angle) * dist - 20) + 'px');
+  p.style.setProperty('--dur', (0.5 + Math.random() * 0.5) + 's');
+  p.style.left = '0';
+  p.style.top = '0';
+  wrap.appendChild(p);
+  setTimeout(function() { p.remove(); }, 1000);
+}
+
 function startTimer() {
   const btn  = document.getElementById('timerStartBtn');
   const ring = document.getElementById('timerRing');
+  const wrap = document.getElementById('timerRingWrap');
   const num  = document.getElementById('timerNum');
   btn.disabled = true;
   btn.textContent = 'רץ...';
   clearInterval(timerInterval);
+  clearInterval(fireParticleTimer);
+  ring.classList.remove('on-fire');
+  wrap.classList.remove('on-fire');
+  num.classList.remove('on-fire');
+
   timerInterval = setInterval(() => {
     timerSeconds--;
     const ratio = timerSeconds / timerTotal;
     ring.style.strokeDashoffset = CIRCUMFERENCE * (1 - ratio);
-    if (timerSeconds <= 5) ring.classList.add('urgent');
     num.textContent = timerSeconds;
+
+    if (timerSeconds <= 5 && timerSeconds > 0) {
+      // activate fire mode
+      ring.classList.add('on-fire');
+      wrap.classList.add('on-fire');
+      num.classList.add('on-fire');
+      // spawn fire particles
+      if (!fireParticleTimer) {
+        fireParticleTimer = setInterval(function() {
+          spawnFireParticle(wrap);
+        }, 200);
+      }
+      if (navigator.vibrate) navigator.vibrate(50);
+    }
+
     if (timerSeconds <= 0) {
       clearInterval(timerInterval);
+      clearInterval(fireParticleTimer);
+      fireParticleTimer = null;
+      ring.classList.remove('on-fire');
+      wrap.classList.remove('on-fire');
+      num.classList.remove('on-fire');
       num.textContent = '✓';
+      num.style.fontSize = '24px';
+      num.style.color = '#00ff88';
       if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+      setTimeout(function() {
+        num.style.fontSize = '';
+        num.style.color = '';
+      }, 2000);
     }
   }, 1000);
 }
