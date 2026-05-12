@@ -1473,15 +1473,21 @@ html, body {
 .timer-wrap     { flex: 0 0 auto; }
 .actions        { flex: 0 0 auto; gap: clamp(6px,1.5%,10px); }
 
-/* ══ THE FIX: Card takes remaining space but capped at 42vh ══ */
+/* ══ THE FIX: Card fixed height ══ */
 #gameScreen .card-placeholder,
 #gameScreen .card-scene {
-  flex: 0 1 auto !important;
-  height: auto !important;
-  max-height: 42vh !important;
-  min-height: 160px !important;
+  flex: 0 0 33vh !important;
+  height: 33vh !important;
+  max-height: 33vh !important;
+  min-height: 130px !important;
   width: 100% !important;
-  margin-bottom: clamp(6px,1.5%,12px) !important;
+  margin-bottom: 8px !important;
+}
+/* override the global clamp rules */
+.card-scene, .card-placeholder {
+  height: 33vh !important;
+  max-height: 33vh !important;
+  min-height: 130px !important;
 }
 
 /* card flipper fills scene */
