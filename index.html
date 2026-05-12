@@ -533,6 +533,43 @@ body::after {
   border-color: rgba(255,255,255,0.35);
 }
 
+/* ── IOS TOAST ── */
+.ios-toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(20,20,20,0.95);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 14px 20px;
+  color: white;
+  font-family: 'Heebo', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+  z-index: 99999;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  max-width: 280px;
+  width: 90%;
+}
+.ios-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.ios-toast .share-icon {
+  display: inline-block;
+  background: #007aff;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 16px;
+  margin: 0 2px;
+}
+
 .flash-overlay {
   position: fixed; inset: 0;
   background: radial-gradient(ellipse at center, rgba(230,126,34,0.55), rgba(180,60,0,0.25));
@@ -1709,6 +1746,11 @@ html, body {
 </div>
 
 <button class="fullscreen-btn" id="fullscreenBtn" onclick="toggleFullscreen()" title="מסך מלא">⛶</button>
+<div class="ios-toast" id="iosToast">
+  📱 להצגה במסך מלא:<br>
+  לחצו על <span class="share-icon">⬆</span> ואז<br>
+  <strong>"הוסף למסך הבית"</strong>
+</div>
 <div class="flash-overlay" id="flashOverlay"></div>
 <canvas id="confetti-canvas"></canvas>
 <div class="mode-flash" id="modeFlash"></div>
@@ -2570,20 +2612,39 @@ function adjustLayout() {
 
 window.addEventListener('resize', adjustLayout);
 
+var iosToastTimer = null;
+
 function toggleFullscreen() {
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+  // iOS Safari — show instruction toast
+  if (isIOS || (isSafari && !document.fullscreenElement)) {
+    showIOSToast();
+    return;
+  }
+
   var btn = document.getElementById('fullscreenBtn');
   if (!document.fullscreenElement && !document.webkitFullscreenElement) {
     var el = document.documentElement;
     if (el.requestFullscreen) el.requestFullscreen();
     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-    btn.textContent = '⛶';
     btn.style.opacity = '0.3';
   } else {
     if (document.exitFullscreen) document.exitFullscreen();
     else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    btn.textContent = '⛶';
     btn.style.opacity = '1';
   }
+}
+
+function showIOSToast() {
+  var toast = document.getElementById('iosToast');
+  if (!toast) return;
+  toast.classList.add('show');
+  clearTimeout(iosToastTimer);
+  iosToastTimer = setTimeout(function() {
+    toast.classList.remove('show');
+  }, 4000);
 }
 
 document.addEventListener('fullscreenchange', function() {
