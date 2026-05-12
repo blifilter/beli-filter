@@ -96,9 +96,6 @@ body::after {
   box-sizing: border-box;
 }
 
-/* ── SCREENS ── */
-/* screen rules in responsive section */
-
 /* ── WELCOME ── */
 #welcomeScreen {
   min-height: 100vh;
@@ -155,7 +152,6 @@ body::after {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* welcome cta */
 .welcome-cta {
   opacity: 0;
   animation: fadeSlideDown 0.8s ease 1.1s forwards;
@@ -387,7 +383,6 @@ body::after {
   line-height: 1;
 }
 
-/* gold corner accents */
 .card-back-inner::before,
 .card-back-inner::after {
   content: '';
@@ -480,7 +475,6 @@ body::after {
 .actions-row { display: flex; gap: 10px; width: 100%; }
 .actions-row .btn { flex: 1; }
 
-/* random mode indicator */
 .random-indicator {
   text-align: center;
   font-size: 11px;
@@ -711,7 +705,6 @@ body::after {
 }
 .card-streak.play { animation: goldStreak 0.7s ease 0.35s both; }
 
-
 /* ── FIRE LOGO ANIMATION ── */
 @keyframes letterDrop {
   0%   { opacity: 0; transform: translateY(-30px) scale(0.5); filter: blur(4px); }
@@ -813,7 +806,6 @@ body::after {
   transform: scale(1.15);
 }
 
-/* player card in turn bar */
 .turn-bar {
   width: 100%;
   text-align: center;
@@ -892,24 +884,19 @@ body.fire-mode .bg-orb2 {
   background: radial-gradient(circle, rgba(220,50,0,0.5) 0%, transparent 70%) !important;
 }
 
-/* fire border flash */
 @keyframes fireBorderPulse {
   0%,100% { box-shadow: 0 0 0px rgba(255,80,0,0); }
   50%     { box-shadow: 0 0 40px rgba(255,80,0,0.35), inset 0 0 20px rgba(255,80,0,0.1); }
 }
 
-body.fire-mode .app {
-  animation: fireBorderPulse 2s ease-in-out infinite;
-}
 
-/* fire vignette overlay */
+
 body.fire-mode::after {
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
     radial-gradient(ellipse at center, transparent 40%, rgba(150,30,0,0.25) 100%);
   transition: all 1.5s ease;
 }
-
 
 /* ── NATURE MODE ── */
 body.nature-mode::before {
@@ -927,9 +914,7 @@ body.nature-mode .bg-orb2 {
   animation: fireModePulse 3s ease-in-out 0.5s infinite !important;
   background: radial-gradient(circle, rgba(0,140,40,0.4) 0%, transparent 70%) !important;
 }
-body.nature-mode .app {
-  animation: naturePulse 3s ease-in-out infinite;
-}
+
 @keyframes naturePulse {
   0%,100% { box-shadow: 0 0 0px rgba(0,180,50,0); }
   50%     { box-shadow: 0 0 40px rgba(0,180,50,0.25), inset 0 0 20px rgba(0,180,50,0.08); }
@@ -961,9 +946,7 @@ body.ocean-mode .bg-orb2 {
   animation: fireModePulse 4s ease-in-out 0.8s infinite !important;
   background: radial-gradient(circle, rgba(0,100,200,0.4) 0%, transparent 70%) !important;
 }
-body.ocean-mode .app {
-  animation: oceanPulse 4s ease-in-out infinite;
-}
+
 @keyframes oceanPulse {
   0%,100% { box-shadow: 0 0 0px rgba(0,120,255,0); }
   50%     { box-shadow: 0 0 40px rgba(0,120,255,0.25), inset 0 0 20px rgba(0,120,255,0.08); }
@@ -979,7 +962,6 @@ body.ocean-mode .heat-bar-fill {
   box-shadow: 0 0 8px rgba(0,150,255,0.6) !important;
 }
 
-/* mode transition flash */
 @keyframes modeFlash {
   0%   { opacity: 0; }
   20%  { opacity: 0.5; }
@@ -994,7 +976,6 @@ body.ocean-mode .heat-bar-fill {
 }
 .mode-flash.active { animation: modeFlash 1s ease forwards; }
 
-
 /* ── BURN EFFECT ── */
 @keyframes burnOut {
   0%   { filter: brightness(1); transform: rotateY(180deg) scale(1); }
@@ -1006,7 +987,6 @@ body.ocean-mode .heat-bar-fill {
   animation: burnOut 0.9s ease forwards;
 }
 
-/* burn sparks */
 .spark {
   position: fixed;
   width: 4px; height: 4px;
@@ -1074,7 +1054,7 @@ body.ocean-mode .heat-bar-fill {
   z-index: 9996;
 }
 
-/* ── WORD REVEAL (slow text) ── */
+/* ── WORD REVEAL ── */
 .word-span {
   display: inline;
   opacity: 0;
@@ -1086,10 +1066,7 @@ body.ocean-mode .heat-bar-fill {
   filter: blur(0);
 }
 
-
 /* ── CARD BACKGROUNDS ── */
-
-/* Conversation - deep blue with stars */
 .card-front.type-conversation {
   background: linear-gradient(160deg, #0a1628 0%, #122848 40%, #1a3a6a 70%, #0a1a38 100%) !important;
 }
@@ -1118,7 +1095,6 @@ body.ocean-mode .heat-bar-fill {
   0%,100% { opacity: 0.7; }
   50%     { opacity: 1; }
 }
-/* blue glow at top */
 .card-front.type-conversation .card-inner::before {
   content: '';
   position: absolute;
@@ -1132,7 +1108,6 @@ body.ocean-mode .heat-bar-fill {
   z-index: 0;
 }
 
-/* Challenge - red with diagonal lines */
 .card-front.type-challenge {
   background: linear-gradient(160deg, #280000 0%, #520808 40%, #6e0f0f 70%, #300000 100%) !important;
 }
@@ -1155,7 +1130,6 @@ body.ocean-mode .heat-bar-fill {
   0%   { background-position: 0 0; }
   100% { background-position: 40px 40px; }
 }
-/* red pulse glow */
 .card-front.type-challenge .card-inner::before {
   content: '';
   position: absolute;
@@ -1174,7 +1148,6 @@ body.ocean-mode .heat-bar-fill {
   50%     { opacity: 1; transform: translateX(-50%) scale(1.1); }
 }
 
-/* No Filter - gold/fire */
 .card-front.type-noFilter {
   background: linear-gradient(160deg, #281000 0%, #522000 35%, #7a3000 60%, #3d1500 100%) !important;
 }
@@ -1194,7 +1167,6 @@ body.ocean-mode .heat-bar-fill {
   0%,100% { opacity: 0.7; }
   50%     { opacity: 1; }
 }
-/* gold shimmer top */
 .card-front.type-noFilter .card-inner::before {
   content: '';
   position: absolute;
@@ -1208,7 +1180,6 @@ body.ocean-mode .heat-bar-fill {
   z-index: 0;
 }
 
-/* Make card-inner children stack above the bg effects */
 .card-front .card-inner {
   z-index: 2;
   position: absolute;
@@ -1220,10 +1191,7 @@ body.ocean-mode .heat-bar-fill {
 }
 .card-front .card-badge { z-index: 3; }
 
-
 /* ── NATURE MODE CARDS ── */
-
-/* שיחה - ירוק בהיר/ליים */
 body.nature-mode .card-front.type-conversation {
   background: linear-gradient(160deg, #052210 0%, #0a4020 40%, #0f5a2a 70%, #063018 100%) !important;
   box-shadow: 0 0 40px rgba(0,220,80,0.3), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1246,7 +1214,6 @@ body.nature-mode .card-front.type-conversation .card-inner::before {
   background: radial-gradient(ellipse, rgba(0,220,80,0.3) 0%, transparent 70%);
 }
 
-/* משימה - ירוק כהה/יער */
 body.nature-mode .card-front.type-challenge {
   background: linear-gradient(160deg, #021508 0%, #052d10 40%, #083d15 70%, #031a0a 100%) !important;
   box-shadow: 0 0 40px rgba(255,140,0,0.25), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1263,7 +1230,6 @@ body.nature-mode .card-front.type-challenge .card-inner::before {
   animation: greenPulse 2s ease-in-out infinite;
 }
 
-/* בלי פילטר - ירוק-זהב */
 body.nature-mode .card-front.type-noFilter {
   background: linear-gradient(160deg, #101a02 0%, #243d05 35%, #324f08 60%, #182800 100%) !important;
   box-shadow: 0 0 50px rgba(150,220,0,0.4), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1281,8 +1247,6 @@ body.nature-mode .card-front.type-noFilter .card-inner::before {
 }
 
 /* ── OCEAN MODE CARDS ── */
-
-/* שיחה - כחול בהיר/שמים */
 body.ocean-mode .card-front.type-conversation {
   background: linear-gradient(160deg, #020d28 0%, #071d52 40%, #0c2870 70%, #041038 100%) !important;
   box-shadow: 0 0 40px rgba(0,180,255,0.35), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1304,7 +1268,6 @@ body.ocean-mode .card-front.type-conversation .card-inner::before {
   background: radial-gradient(ellipse, rgba(0,180,255,0.3) 0%, transparent 70%);
 }
 
-/* משימה - כחול כהה/עומק ים */
 body.ocean-mode .card-front.type-challenge {
   background: linear-gradient(160deg, #010810 0%, #031525 40%, #051e38 70%, #020d1f 100%) !important;
   box-shadow: 0 0 40px rgba(0,80,200,0.4), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1321,7 +1284,6 @@ body.ocean-mode .card-front.type-challenge .card-inner::before {
   animation: bluePulse 2s ease-in-out infinite;
 }
 
-/* בלי פילטר - טורקיז/ציאן */
 body.ocean-mode .card-front.type-noFilter {
   background: linear-gradient(160deg, #00131a 0%, #002535 35%, #003348 60%, #001520 100%) !important;
   box-shadow: 0 0 50px rgba(0,200,220,0.45), 0 12px 40px rgba(0,0,0,0.6) !important;
@@ -1338,7 +1300,6 @@ body.ocean-mode .card-front.type-noFilter .card-inner::before {
   background: radial-gradient(ellipse, rgba(0,200,230,0.25) 0%, transparent 70%);
 }
 
-
 /* ── SPACE MODE ── */
 body.space-mode {
   background: #000008 !important;
@@ -1352,7 +1313,6 @@ body.space-mode::before {
   transition: all 1.5s ease;
 }
 
-/* Galaxy nebula */
 body.space-mode::after {
   background-image:
     url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
@@ -1360,7 +1320,6 @@ body.space-mode::after {
   transition: all 1.5s ease;
 }
 
-/* Orbiting orbs */
 body.space-mode .bg-orb1 {
   background: radial-gradient(circle, rgba(120,0,255,0.5) 0%, rgba(60,0,180,0.2) 50%, transparent 70%) !important;
   animation: spaceOrb1 8s ease-in-out infinite !important;
@@ -1379,22 +1338,17 @@ body.space-mode .bg-orb2 {
   50%     { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
 }
 
-/* App pulse */
-body.space-mode .app {
-  animation: spacePulse 4s ease-in-out infinite;
-}
+
 @keyframes spacePulse {
   0%,100% { box-shadow: 0 0 0px rgba(120,0,255,0); }
   50%     { box-shadow: 0 0 60px rgba(120,0,255,0.2), inset 0 0 30px rgba(120,0,255,0.05); }
 }
 
-/* Heat bar color */
 body.space-mode .heat-bar-fill {
   background: linear-gradient(90deg, #4a0080, #8000ff, #c060ff) !important;
   box-shadow: 0 0 8px rgba(150,0,255,0.7) !important;
 }
 
-/* Stars canvas for space mode */
 #space-stars {
   position: fixed;
   inset: 0;
@@ -1406,8 +1360,6 @@ body.space-mode .heat-bar-fill {
 body.space-mode #space-stars { opacity: 1; }
 
 /* ── SPACE CARDS ── */
-
-/* שיחה - סגול/נבולה */
 body.space-mode .card-front.type-conversation {
   background: linear-gradient(160deg, #080015 0%, #120030 40%, #1a0045 70%, #0a0020 100%) !important;
   box-shadow: 0 0 50px rgba(120,0,255,0.45), 0 12px 40px rgba(0,0,0,0.7) !important;
@@ -1433,7 +1385,6 @@ body.space-mode .card-front.type-conversation .card-inner::before {
   background: radial-gradient(ellipse, rgba(120,0,255,0.35) 0%, transparent 70%);
 }
 
-/* משימה - כחול-חלל/כוכב נייטרון */
 body.space-mode .card-front.type-challenge {
   background: linear-gradient(160deg, #000510 0%, #000d25 40%, #001040 70%, #000818 100%) !important;
   box-shadow: 0 0 50px rgba(0,80,255,0.4), 0 12px 40px rgba(0,0,0,0.7) !important;
@@ -1454,7 +1405,6 @@ body.space-mode .card-front.type-challenge .card-inner::before {
   animation: bluePulse 2s ease-in-out infinite;
 }
 
-/* בלי פילטר - ורוד/גלקסיה */
 body.space-mode .card-front.type-noFilter {
   background: linear-gradient(160deg, #12000a 0%, #280015 35%, #380020 60%, #1a000e 100%) !important;
   box-shadow: 0 0 60px rgba(255,0,150,0.5), 0 12px 40px rgba(0,0,0,0.7) !important;
@@ -1474,78 +1424,10 @@ body.space-mode .card-front.type-noFilter .card-inner::before {
   background: radial-gradient(ellipse, rgba(255,0,150,0.3) 0%, transparent 70%);
 }
 
-
-/* ── MOBILE RESPONSIVE ── */
-
-/* Use dynamic viewport height */
-.app {
-  min-height: 100dvh !important;
-  min-height: 100vh !important; /* fallback */
-  padding: 16px 14px 32px !important;
-  padding-top: max(16px, env(safe-area-inset-top)) !important;
-  padding-bottom: max(32px, env(safe-area-inset-bottom)) !important;
-}
-
-#welcomeScreen {
-  min-height: 100dvh !important;
-  min-height: 100vh !important;
-}
-
-/* Card adapts to screen */
-.card-scene {
-  height: clamp(220px, 45vh, 380px) !important;
-  min-height: unset !important;
-  max-height: unset !important;
-}
-
-.card-placeholder {
-  height: clamp(220px, 45vh, 380px) !important;
-  min-height: unset !important;
-  max-height: unset !important;
-}
-
-/* Small phones */
-@media (max-height: 650px) {
-  .logo-title { font-size: clamp(42px, 14vw, 64px) !important; }
-  .logo-wrap  { margin-bottom: 20px !important; }
-  .turn-name  { font-size: 22px !important; }
-  .player-avatar { font-size: 24px !important; }
-  .btn { padding: 14px 20px !important; font-size: 15px !important; }
-  .card-scene, .card-placeholder { height: clamp(180px, 38vh, 300px) !important; }
-  .deck-status { margin-bottom: 8px !important; }
-  .heat-wrap   { margin-bottom: 6px !important; }
-  .turn-bar    { margin-bottom: 8px !important; }
-  .progress-wrap { margin-bottom: 8px !important; }
-}
-
-/* Very small phones */
-@media (max-height: 550px) {
-  .card-scene, .card-placeholder { height: clamp(160px, 32vh, 240px) !important; }
-  .btn { padding: 12px 16px !important; font-size: 14px !important; }
-  .logo-title { font-size: 40px !important; }
-  .timer-wrap { display: none !important; }
-}
-
-/* Landscape */
-@media (orientation: landscape) and (max-height: 500px) {
-  .app { padding: 8px 14px 16px !important; }
-  .card-scene, .card-placeholder { height: clamp(140px, 55vh, 260px) !important; }
-  .logo-title { font-size: 36px !important; }
-  .logo-wrap  { margin-bottom: 12px !important; }
-  .turn-bar   { margin-bottom: 6px !important; }
-  .deck-status, .heat-wrap, .progress-wrap { margin-bottom: 4px !important; }
-}
-
-/* Large phones/tablets */
-@media (min-height: 900px) {
-  .card-scene, .card-placeholder { height: clamp(360px, 48vh, 480px) !important; }
-  .logo-title { font-size: clamp(72px, 16vw, 100px) !important; }
-}
-
-
-/* ── FULL SCREEN GRID LAYOUT ── */
-/* ── RESPONSIVE CORE ── */
-* { box-sizing: border-box; }
+/* ══════════════════════════════════════════
+   ── RESPONSIVE CORE ──
+   ══════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
 
 html, body {
   width: 100%;
@@ -1591,13 +1473,13 @@ html, body {
 .timer-wrap     { flex: 0 0 auto; }
 .actions        { flex: 0 0 auto; gap: clamp(6px,1.5%,10px); }
 
-/* Card — takes ALL remaining space */
+/* ══ THE FIX: Card takes remaining space but capped at 42vh ══ */
 #gameScreen .card-placeholder,
 #gameScreen .card-scene {
-  flex: 1 1 0% !important;
+  flex: 0 1 auto !important;
   height: auto !important;
-  min-height: 0 !important;
-  max-height: none !important;
+  max-height: 42vh !important;
+  min-height: 160px !important;
   width: 100% !important;
   margin-bottom: clamp(6px,1.5%,12px) !important;
 }
@@ -1635,7 +1517,6 @@ html, body {
   .turn-label    { display: none !important; }
   .progress-wrap { display: none !important; }
 }
-
 </style>
 </head>
 
@@ -1643,7 +1524,6 @@ html, body {
 
 <div class="bg-orb1"></div>
 <div class="bg-orb2"></div>
-<!-- Particles -->
 <div id="particles"></div>
 
 <div class="app">
@@ -1725,7 +1605,6 @@ html, body {
       <div class="heat-bar-bg"><div class="heat-bar-fill" id="heatBar"></div></div>
       <span class="heat-icon" id="heatIcon">🔥</span>
     </div>
-
     <div class="progress-wrap">
       <div class="progress-bar" id="progressBar"></div>
     </div>
@@ -1976,9 +1855,9 @@ let decks = {}, p1Name = '', p2Name = '', currentPlayer = '';
 let lastWasNoFilter = false, totalCardsDrawn = 0, noFilterSchedule = [];
 let randomMode = false;
 let p1Emoji = '😎', p2Emoji = '😍';
-let heatLevel = 0; // 0-100
+let heatLevel = 0;
 let cardsSinceStart = 0;
-let modeIndex = 0; // 0=fire, 1=nature, 2=ocean
+let modeIndex = 0;
 
 const EMOJIS = ['😎','😍','🥰','🔥','😈','👑','🌹','💎','🐯','🦋','⚡','🌙'];
 
@@ -2001,7 +1880,6 @@ function shuffle(arr) {
 
 function buildNoFilterSchedule(total, count) {
   var schedule = [];
-  // חלק את המשחק לאחרי 25% הראשונים
   var startAfter = Math.floor(total * 0.25);
   var remaining  = total - startAfter;
   var chunk = Math.floor(remaining / count);
@@ -2029,7 +1907,6 @@ function initSpaceStars() {
   var ctx = canvas.getContext('2d');
   canvas.width  = window.innerWidth;
   canvas.height = window.innerHeight;
-
   var stars = [];
   for (var i = 0; i < 200; i++) {
     stars.push({
@@ -2041,7 +1918,6 @@ function initSpaceStars() {
       color: ['#ffffff','#ffe0ff','#c0a0ff','#80b0ff','#ffb0d0'][Math.floor(Math.random()*5)]
     });
   }
-
   var shootingStars = [];
   function addShootingStar() {
     shootingStars.push({
@@ -2054,7 +1930,6 @@ function initSpaceStars() {
     });
   }
   setInterval(addShootingStar, 2500);
-
   var animFrame;
   function drawStars() {
     if (!document.body.classList.contains('space-mode')) {
@@ -2063,8 +1938,6 @@ function initSpaceStars() {
       return;
     }
     ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    // draw stars
     stars.forEach(function(s) {
       s.alpha += s.speed;
       if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
@@ -2076,8 +1949,6 @@ function initSpaceStars() {
       ctx.fill();
       ctx.restore();
     });
-
-    // draw shooting stars
     shootingStars = shootingStars.filter(function(ss) {
       ss.x += Math.cos(ss.angle) * ss.speed;
       ss.y += Math.sin(ss.angle) * ss.speed;
@@ -2097,7 +1968,6 @@ function initSpaceStars() {
       ctx.restore();
       return true;
     });
-
     animFrame = requestAnimationFrame(drawStars);
   }
   drawStars();
@@ -2133,7 +2003,6 @@ function animateLogo() {
       span.className = 'letter';
       span.textContent = ch;
       span.style.animationDelay = delay + 's';
-      // after drop add flicker
       setTimeout(() => span.classList.add('lit'), delay * 1000 + 500);
       delay += 0.1;
       lineDiv.appendChild(span);
@@ -2164,8 +2033,6 @@ function initEmojiPickers() {
   });
 }
 
-// initApp called at end of script
-
 function showError(msg) { const e=document.getElementById('errorMsg'); e.textContent=msg; e.classList.add('show'); }
 function hideError()    { document.getElementById('errorMsg').classList.remove('show'); }
 
@@ -2189,54 +2056,32 @@ function updateHeat(delta) {
     else if (modeIndex === 1) bar.style.background = 'linear-gradient(90deg,#00c853,#64dd17,#aeea00)';
     else bar.style.background = 'linear-gradient(90deg,#0091ea,#00b0ff,#80d8ff)';
   }
-
   const mode = MODES[modeIndex];
   if (icon) {
     if (heatLevel >= 70) { icon.textContent = '🌡️'; icon.classList.add('hot'); icon.style.fontSize = '20px'; }
     else if (heatLevel >= 35) { icon.textContent = mode.icon; icon.classList.add('hot'); }
     else { icon.textContent = mode.icon; icon.classList.remove('hot'); icon.style.fontSize = ''; }
   }
-
-  // apply mode bg always — remove others, add current
   MODES.forEach(m => document.body.classList.remove(m.bodyClass));
   document.body.classList.add(mode.bodyClass);
-
-  // cycle mode when full
-  if (heatLevel >= 100) {
-    cycleMode();
-  }
+  if (heatLevel >= 100) { cycleMode(); }
 }
 
 function cycleMode() {
   modeIndex = (modeIndex + 1) % MODES.length;
   heatLevel = 0;
-
   const mode = MODES[modeIndex];
-
-  // remove all mode classes and apply new one IMMEDIATELY
   MODES.forEach(m => document.body.classList.remove(m.bodyClass));
   document.body.classList.add(mode.bodyClass);
-
-  // space stars
   if (mode.name === 'space') initSpaceStars();
   else clearSpaceStars();
-
-  // reset bar color immediately - handled by updateHeat
-
-  // flash transition
   const flash = document.getElementById('modeFlash');
   flash.style.background = mode.flashColor;
   flash.classList.remove('active');
   void flash.offsetWidth;
   flash.classList.add('active');
-
-  // update heat icon
   const icon = document.getElementById('heatIcon');
   if (icon) { icon.textContent = mode.icon; icon.classList.remove('hot'); }
-
-  // reset bar already handled above
-
-  // show big mode announcement
   showModeAnnouncement(mode);
 }
 
@@ -2254,18 +2099,9 @@ function showModeAnnouncement(mode) {
   ann.style.opacity = '0';
   ann.textContent = mode.icon;
   document.body.appendChild(ann);
-
-  setTimeout(function() {
-    ann.style.transform = 'translate(-50%, -50%) scale(1.2)';
-    ann.style.opacity = '1';
-  }, 50);
-  setTimeout(function() {
-    ann.style.transform = 'translate(-50%, -50%) scale(1)';
-  }, 300);
-  setTimeout(function() {
-    ann.style.opacity = '0';
-    ann.style.transform = 'translate(-50%, -50%) scale(0.5)';
-  }, 900);
+  setTimeout(function() { ann.style.transform = 'translate(-50%, -50%) scale(1.2)'; ann.style.opacity = '1'; }, 50);
+  setTimeout(function() { ann.style.transform = 'translate(-50%, -50%) scale(1)'; }, 300);
+  setTimeout(function() { ann.style.opacity = '0'; ann.style.transform = 'translate(-50%, -50%) scale(0.5)'; }, 900);
   setTimeout(function() { ann.remove(); }, 1300);
 }
 
@@ -2297,19 +2133,15 @@ function updateRandomUI() {
     b.classList.toggle('active-mode', randomMode);
     b.textContent = randomMode ? '🎲 מצב אקראי פעיל' : '🎲 בחירה אקראית';
   });
-  inds.forEach(i => {
-    i.textContent = randomMode ? '⚡ המשחק בוחר בשבילך' : '';
-  });
+  inds.forEach(i => { i.textContent = randomMode ? '⚡ המשחק בוחר בשבילך' : ''; });
 }
 
 function toggleRandom() {
   randomMode = !randomMode;
   updateRandomUI();
   if (randomMode) {
-    // במצב אקראי — מסתירים כפתורי בחירה ומציגים כפתור "הבא" שיושך קלף
     document.getElementById('choiceActions').style.display = 'none';
     document.getElementById('nextAction').style.display = 'flex';
-    // מסתירים קלף קיים אם יש
     const flipper = document.getElementById('cardFlipper');
     const front   = document.getElementById('cardFront');
     flipper.style.transition = 'none';
@@ -2319,7 +2151,6 @@ function toggleRandom() {
     document.getElementById('cardPlaceholder').style.display = 'flex';
     setTimeout(() => { flipper.style.transition = ''; }, 50);
   } else {
-    // חזרה לבחירה ידנית
     document.getElementById('choiceActions').style.display = 'flex';
     document.getElementById('nextAction').style.display = 'none';
     document.getElementById('cardScene').style.display = 'none';
@@ -2334,28 +2165,23 @@ function toggleRandom() {
   }
 }
 
-/* ── NAV ── */
 function goToSetup() { showScreen('setupScreen'); }
 function goBack()    { showScreen('welcomeScreen'); }
 
-/* ── GAME ── */
 function startGame() {
   p1Name = document.getElementById('p1').value.trim();
   p2Name = document.getElementById('p2').value.trim();
   if (!p1Name || !p2Name) { showError('תכניסו שני שמות 😉'); return; }
   if (p1Name === p2Name)  { showError('השמות חייבים להיות שונים 😄'); return; }
   hideError();
-
   decks = {
     conversation: shuffle([...DATA.conversation]),
     challenge:    shuffle([...DATA.challenge]),
     noFilter:     shuffle([...DATA.noFilter])
   };
-
   totalCardsDrawn = 0;
   lastWasNoFilter = false;
   noFilterSchedule = buildNoFilterSchedule(DATA.conversation.length+DATA.challenge.length, DATA.noFilter.length);
-
   currentPlayer = p1Name;
   heatLevel = 0;
   cardsSinceStart = 0;
@@ -2368,7 +2194,6 @@ function startGame() {
   updateCounters();
   updateButtonState();
   updateRandomUI();
-
   const scene=document.getElementById('cardScene'), flipper=document.getElementById('cardFlipper');
   scene.style.display='none';
   flipper.classList.remove('flipped','nf-shake');
@@ -2376,7 +2201,6 @@ function startGame() {
   document.getElementById('cardPlaceholder').style.display='flex';
   document.getElementById('choiceActions').style.display='flex';
   document.getElementById('nextAction').style.display='none';
-
   showScreen('gameScreen');
 }
 
@@ -2386,64 +2210,42 @@ function shouldDrawNoFilter() {
 }
 
 function draw(type) {
-  // אם מצב אקראי — בחר בין conversation ו-challenge
   if (randomMode && type !== 'noFilter') {
     var convLeft = decks.conversation.length;
     var chalLeft = decks.challenge.length;
     var nofLeft  = decks.noFilter.length;
-    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) {
-      // רק בלי פילטר נשאר
-      type = 'noFilter';
-    } else if (convLeft === 0 && chalLeft === 0) {
-      return;
-    } else if (convLeft === 0) {
-      type = 'challenge';
-    } else if (chalLeft === 0) {
-      type = 'conversation';
-    } else {
+    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) { type = 'noFilter'; }
+    else if (convLeft === 0 && chalLeft === 0) { return; }
+    else if (convLeft === 0) { type = 'challenge'; }
+    else if (chalLeft === 0) { type = 'conversation'; }
+    else {
       var total = convLeft + chalLeft;
       type = Math.random() < (convLeft / total) ? 'conversation' : 'challenge';
     }
   }
-
   if (decks[type].length===0) return;
-
   let finalType = type;
   if (shouldDrawNoFilter()) {
     finalType = 'noFilter';
     noFilterSchedule = noFilterSchedule.filter(n => n !== totalCardsDrawn);
   }
   if (finalType==='noFilter' && decks.noFilter.length===0) finalType=type;
-
   const text = decks[finalType].pop();
   lastWasNoFilter = finalType==='noFilter';
   totalCardsDrawn++;
   cardsSinceStart++;
-  // כל קלף מוסיף 2.5% — 40 קלפים = 100%
   updateHeat(2.5);
-
   renderCard(finalType, text);
   updateCounters();
-
   document.getElementById('choiceActions').style.display='none';
   document.getElementById('nextAction').style.display='flex';
   document.getElementById('cardPlaceholder').style.display='none';
   updateRandomUI();
 }
 
-const BG = {
-  conversation: '',
-  challenge:    '',
-  noFilter:     ''
-};
+const BG = { conversation: '', challenge: '', noFilter: '' };
+const CARD_CLASSES = { conversation: 'type-conversation', challenge: 'type-challenge', noFilter: 'type-noFilter' };
 
-const CARD_CLASSES = {
-  conversation: 'type-conversation',
-  challenge:    'type-challenge',
-  noFilter:     'type-noFilter'
-};
-
-// קביעת זמנים לפי טקסט הקלף
 function extractSeconds(text) {
   const map = [
     { pattern: /עשרים\s*שניות|20\s*שניות/i,  secs: 20 },
@@ -2453,9 +2255,7 @@ function extractSeconds(text) {
     { pattern: /דקה\s*שלמה|דקה\s*אחת|למשך\s*דקה/i, secs: 60 },
     { pattern: /שתי\s*דקות|2\s*דקות/i,       secs: 120 },
   ];
-  for (const {pattern, secs} of map) {
-    if (pattern.test(text)) return secs;
-  }
+  for (const {pattern, secs} of map) { if (pattern.test(text)) return secs; }
   return 0;
 }
 
@@ -2513,30 +2313,23 @@ function renderCard(type, text) {
   const badge   = document.getElementById('cardBadge');
   const cardText = document.getElementById('cardText');
   const streak  = document.getElementById('cardStreak');
-
   flipper.classList.remove('flipped','nf-shake');
   front.classList.remove('nf-glow','burning');
   streak.classList.remove('play');
   void flipper.offsetWidth;
-
   front.style.backgroundImage = '';
   front.classList.remove('type-conversation','type-challenge','type-noFilter');
   front.classList.add(CARD_CLASSES[type]);
   cardText.innerHTML = '';
   badge.style.display = type==='noFilter' ? 'block' : 'none';
   if (type==='noFilter') badge.textContent = '🔥 קלף בלי פילטר';
-
   const secs = (type === 'noFilter') ? 0 : extractSeconds(text);
   setupTimer(secs);
-
   scene.style.display = 'block';
   void flipper.offsetWidth;
-
-  // ── SHUFFLE then flip ──
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:absolute;inset:0;z-index:10;pointer-events:none;';
   scene.appendChild(overlay);
-
   const anims = ['shuffleLeft','shuffleRight','shuffleUp'];
   anims.forEach(function(anim, i) {
     var c = document.createElement('div');
@@ -2548,15 +2341,12 @@ function renderCard(type, text) {
       c.style.animation = anim + ' 0.6s ease ' + (i*80) + 'ms forwards';
     }, 10);
   });
-
   setTimeout(function() {
     overlay.remove();
     void flipper.offsetWidth;
     flipper.classList.add('flipped');
-
     setTimeout(function() { streak.classList.add('play'); }, 340);
     setTimeout(function() { revealWords(text, document.getElementById('cardText')); }, 420);
-
     if (type==='noFilter') {
       setTimeout(function() {
         flipper.classList.add('nf-shake');
@@ -2583,7 +2373,6 @@ function revealWords(text, container) {
   });
 }
 
-
 function launchConfetti() {
   var canvas = document.getElementById('confetti-canvas');
   if (!canvas) return;
@@ -2595,15 +2384,11 @@ function launchConfetti() {
   var pieces = [];
   for (var i = 0; i < 80; i++) {
     pieces.push({
-      x: Math.random()*canvas.width,
-      y: -10 - Math.random()*40,
+      x: Math.random()*canvas.width, y: -10 - Math.random()*40,
       w: 6+Math.random()*8, h: 10+Math.random()*6,
       color: colors[Math.floor(Math.random()*colors.length)],
-      rot: Math.random()*360,
-      vx: (Math.random()-0.5)*4,
-      vy: 2+Math.random()*4,
-      vr: (Math.random()-0.5)*6,
-      alpha: 1
+      rot: Math.random()*360, vx: (Math.random()-0.5)*4,
+      vy: 2+Math.random()*4, vr: (Math.random()-0.5)*6, alpha: 1
     });
   }
   var frame;
@@ -2614,21 +2399,16 @@ function launchConfetti() {
       p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr;
       if (p.y > canvas.height*0.6) p.alpha -= 0.025;
       if (p.alpha > 0) alive = true;
-      ctx.save();
-      ctx.globalAlpha = Math.max(0,p.alpha);
-      ctx.translate(p.x,p.y);
-      ctx.rotate(p.rot*Math.PI/180);
-      ctx.fillStyle = p.color;
-      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
-      ctx.restore();
+      ctx.save(); ctx.globalAlpha = Math.max(0,p.alpha); ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180); ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
     });
     if (alive) frame = requestAnimationFrame(tick);
     else { canvas.classList.remove('show'); ctx.clearRect(0,0,canvas.width,canvas.height); }
   }
   tick();
   setTimeout(function() {
-    cancelAnimationFrame(frame);
-    canvas.classList.remove('show');
+    cancelAnimationFrame(frame); canvas.classList.remove('show');
     ctx.clearRect(0,0,canvas.width,canvas.height);
   }, 3000);
 }
@@ -2648,7 +2428,8 @@ function launchFireworks() {
     for (var i = 0; i < 40; i++) {
       var angle = (Math.PI*2*i)/40;
       var speed = 3 + Math.random()*5;
-      particles.push({x:bx,y:by,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,color:colors[Math.floor(Math.random()*colors.length)],alpha:1,size:2+Math.random()*3});
+      particles.push({x:bx,y:by,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,
+        color:colors[Math.floor(Math.random()*colors.length)],alpha:1,size:2+Math.random()*3});
     }
     bursts.push({particles:particles,delay:b*200});
   }
@@ -2674,32 +2455,6 @@ function launchFireworks() {
   requestAnimationFrame(tick);
 }
 
-function burnCard(callback) {
-  var front = document.getElementById('cardFront');
-  front.classList.add('burning');
-  var rect = front.getBoundingClientRect();
-  var colors = ['#ff4500','#ff8c00','#ffd700','#ff6b35'];
-  for (var i = 0; i < 20; i++) {
-    var spark = document.createElement('div');
-    spark.className = 'spark';
-    var angle = Math.random()*Math.PI*2;
-    var dist  = 60+Math.random()*120;
-    spark.style.setProperty('--dx', Math.cos(angle)*dist+'px');
-    spark.style.setProperty('--dy', Math.sin(angle)*dist-80+'px');
-    spark.style.setProperty('--dur', (0.4+Math.random()*0.6)+'s');
-    spark.style.left = (rect.left+rect.width/2+(Math.random()-0.5)*60)+'px';
-    spark.style.top  = (rect.top+rect.height/2+(Math.random()-0.5)*40)+'px';
-    spark.style.background = colors[Math.floor(Math.random()*colors.length)];
-    document.body.appendChild(spark);
-    setTimeout(function() { spark.remove(); }, 1000);
-  }
-  setTimeout(function() {
-    front.classList.remove('burning');
-    if (callback) callback();
-  }, 900);
-}
-
-
 function triggerFlash() {
   const f=document.getElementById('flashOverlay');
   f.classList.remove('active');
@@ -2719,7 +2474,6 @@ function next() {
   updateAvatar();
   clearInterval(timerInterval);
   document.getElementById('timerWrap').classList.remove('show');
-
   const flipper=document.getElementById('cardFlipper'), front=document.getElementById('cardFront');
   flipper.style.transition='none';
   flipper.classList.remove('flipped','nf-shake');
@@ -2727,20 +2481,16 @@ function next() {
   document.getElementById('cardScene').style.display='none';
   document.getElementById('cardPlaceholder').style.display='flex';
   setTimeout(()=>{ flipper.style.transition=''; }, 50);
-
   if (randomMode) {
     document.getElementById('choiceActions').style.display = 'none';
     document.getElementById('nextAction').style.display = 'flex';
     var convLeft = decks.conversation.length;
     var chalLeft = decks.challenge.length;
     var nofLeft  = decks.noFilter.length;
-    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) {
-      // נשארו רק בלי פילטר — שלוף אותם
-      draw('noFilter');
-    } else if (convLeft > 0 || chalLeft > 0) {
+    if (convLeft === 0 && chalLeft === 0 && nofLeft > 0) { draw('noFilter'); }
+    else if (convLeft > 0 || chalLeft > 0) {
       var total = convLeft + chalLeft;
-      var type = (chalLeft === 0 || (convLeft > 0 && Math.random() < convLeft/total))
-        ? 'conversation' : 'challenge';
+      var type = (chalLeft === 0 || (convLeft > 0 && Math.random() < convLeft/total)) ? 'conversation' : 'challenge';
       draw(type);
     }
   } else {
@@ -2768,15 +2518,11 @@ function restartGame() {
   showScreen('welcomeScreen');
 }
 
-// Init
 initApp();
 adjustLayout();
 
-// ── RESPONSIVE HEIGHT ──
 function adjustLayout() {
-  // CSS Grid handles layout now — just scroll to top
   window.scrollTo(0, 0);
-  // adjust card text font based on card actual height
   setTimeout(function() {
     var scene = document.getElementById('cardScene');
     if (scene) {
@@ -2790,10 +2536,7 @@ function adjustLayout() {
 }
 
 window.addEventListener('resize', adjustLayout);
-window.addEventListener('orientationchange', function() { setTimeout(adjustLayout, 300); });window.addEventListener('orientationchange', function() {
-  setTimeout(adjustLayout, 300);
-});
-
+window.addEventListener('orientationchange', function() { setTimeout(adjustLayout, 300); });
 </script>
 </body>
 </html>
