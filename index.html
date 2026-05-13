@@ -601,28 +601,129 @@ body::after {
 .intro-emoji { font-size: 20px; flex-shrink: 0; }
 
 /* ── SPOTIFY ── */
-.spotify-title { font-family: 'Playfair Display', serif; font-size: 26px; color: white; margin-bottom: 6px; text-align: center; }
-.spotify-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; text-align: center; line-height: 1.6; }
-.qr-wrap { background: white; border-radius: 20px; padding: 14px; margin-bottom: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.5); }
-.qr-wrap img { width: 190px; height: auto; display: block; border-radius: 8px; }
-.spotify-btn {
-  display: block;
-  background: #1DB954;
+.spotify-screen-wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* vinyl record */
+.vinyl-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin-bottom: 28px;
+}
+.vinyl {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle at 50% 50%,
+      #111 0px, #111 3px,
+      #1a1a1a 3px, #1a1a1a 6px,
+      #111 6px, #111 9px
+    );
+  box-shadow:
+    0 0 0 2px #222,
+    0 0 30px rgba(0,0,0,0.8),
+    0 0 60px rgba(192,57,43,0.2);
+  animation: vinylSpin 4s linear infinite;
+  position: relative;
+}
+.vinyl::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #c0392b 0%, #7b1a1a 60%, #3a0808 100%);
+  box-shadow: 0 0 16px rgba(192,57,43,0.6);
+  z-index: 2;
+}
+.vinyl::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #d4a843;
+  z-index: 3;
+  box-shadow: 0 0 6px rgba(212,168,67,0.8);
+}
+/* groove highlight */
+.vinyl-shine {
+  position: absolute;
+  top: 0; left: 0;
+  width: 160px; height: 160px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 4;
+}
+@keyframes vinylSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* music notes floating */
+.note {
+  position: absolute;
+  font-size: 18px;
+  opacity: 0;
+  animation: noteFloat var(--dur) ease-out var(--delay) infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+@keyframes noteFloat {
+  0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+  20%  { opacity: 0.8; }
+  100% { opacity: 0; transform: translateY(-60px) translateX(var(--drift)) scale(1); }
+}
+
+.spotify-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
   color: white;
-  font-weight: 700;
+  margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(29,185,84,0.3);
+}
+.spotify-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+.spotify-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1ed760, #1DB954, #169c3f);
+  color: white;
+  font-weight: 800;
   font-size: 16px;
   text-align: center;
-  padding: 16px;
+  padding: 18px 32px;
   border-radius: 50px;
   text-decoration: none;
   width: 100%;
   margin-bottom: 10px;
   font-family: 'Heebo', sans-serif;
   box-sizing: border-box;
-  box-shadow: 0 4px 24px rgba(29,185,84,0.35);
+  box-shadow: 0 4px 30px rgba(29,185,84,0.45), 0 1px 0 rgba(255,255,255,0.1) inset;
   transition: transform 0.15s, box-shadow 0.15s;
+  letter-spacing: 0.5px;
 }
-.spotify-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(29,185,84,0.5); }
+.spotify-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(29,185,84,0.65); }
+.spotify-btn:active { transform: scale(0.97); }
+.spotify-icon { font-size: 22px; }
 
 /* ── PROGRESS BAR ── */
 .progress-wrap {
@@ -1754,13 +1855,31 @@ html, body {
 
   <!-- SPOTIFY -->
   <div class="screen" id="spotifyScreen">
-    <div class="spotify-title">🎵 מוזיקה לאווירה</div>
-    <div class="spotify-sub">סרקו את הקוד או לחצו על הקישור<br>להפעלת הפלייליסט המושלם למשחק</div>
-    <div class="qr-wrap">
-      <img src="https://static.wixstatic.com/media/e123f8_446982816f7d4cd1b10ee216bb94a1d2~mv2.png" alt="QR">
+    <div class="spotify-screen-wrap">
+
+      <!-- vinyl record animation -->
+      <div class="vinyl-wrap">
+        <div class="vinyl"></div>
+        <div class="vinyl-shine"></div>
+        <!-- floating notes -->
+        <div class="note" style="top:10px;right:10px;--dur:2.4s;--delay:0s;--drift:12px">♪</div>
+        <div class="note" style="top:20px;left:8px;--dur:2.8s;--delay:0.6s;--drift:-10px">♫</div>
+        <div class="note" style="top:40px;right:0px;--dur:2.2s;--delay:1.1s;--drift:8px">♩</div>
+        <div class="note" style="top:5px;left:30px;--dur:3s;--delay:1.7s;--drift:-6px">♬</div>
+      </div>
+
+      <div class="spotify-title">מוזיקה לאווירה</div>
+      <div class="spotify-sub">
+        הכנו פלייליסט מיוחד שילווה אתכם<br>לאורך כל המשחק 🎶
+      </div>
+
+      <a class="spotify-btn" href="https://open.spotify.com/playlist/7aWVeBt72R9QwG6Fz4oI39" target="_blank">
+        <span class="spotify-icon">🎵</span>
+        פתחו את הפלייליסט
+      </a>
+
+      <button class="btn btn-gold" onclick="goToSetup()" style="margin-top:8px">✨ יאללה נתחיל!</button>
     </div>
-    <a class="spotify-btn" href="https://open.spotify.com/playlist/7aWVeBt72R9QwG6Fz4oI39" target="_blank">▶ פתח פלייליסט בספוטיפי</a>
-    <button class="btn btn-gold" onclick="goToSetup()">✨ יאללה נתחיל!</button>
   </div>
 
   <!-- SETUP -->
